@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>내 진로 맞춤 탐구주제 3개 받기 · 에바연</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #001F3F;
+    --navy-hover: #002a54;
+    --navy-light: rgba(0, 31, 63, 0.05);
+    --navy-border: rgba(0, 31, 63, 0.12);
+    --surface: #f8f9fa;
+    --surface-lowest: #ffffff;
+    --surface-low: #f3f4f5;
+    --surface-container: #edeeef;
+    --on-surface: #191c1d;
+    --on-surface-variant: #434654;
+    --outline-variant: #c3c6d6;
+  }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: var(--surface);
+    color: var(--on-surface);
+    min-height: 100dvh;
+    overscroll-behavior: none;
+  }
+  .font-headline {
+    font-family: 'Manrope', 'Nanum Myeongjo', serif;
+  }
+  .font-serif-ko {
+    font-family: 'Nanum Myeongjo', serif;
+  }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .mso-filled {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .signature-gradient {
+    background: linear-gradient(135deg, #001F3F 0%, #002a54 100%);
+  }
+  .screen { display: none; }
+  .screen.active { display: flex; flex-direction: column; }
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fade-in 0.4s ease-out both; }
+  .fade-in-delay-1 { animation: fade-in 0.4s ease-out 0.1s both; }
+  .fade-in-delay-2 { animation: fade-in 0.4s ease-out 0.2s both; }
+  .fade-in-delay-3 { animation: fade-in 0.4s ease-out 0.3s both; }
+  @keyframes spin-curator {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .spin-curator { animation: spin-curator 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+  .pulse-dot { animation: pulse-dot 1.5s ease-in-out infinite; }
+  @keyframes progress-indeterminate {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(400%); }
+  }
+  .progress-bar {
+    animation: progress-indeterminate 2.5s ease-in-out infinite;
+  }
+  .card-3d {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card-3d:active { transform: scale(0.98); }
+  .subject-card {
+    transition: all 0.25s ease;
+  }
+  .subject-card.selected {
+    background: var(--navy-light);
+    box-shadow: inset 0 0 0 2px var(--navy);
+  }
+  .cta-button {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .cta-button:active { transform: scale(0.97); }
+  .cta-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  /* iOS 안전영역 대응 */
+  .safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem); }
+  /* 스크롤바 숨기기 */
+  ::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body class="text-[15px]">
+
+<div id="app" class="max-w-md mx-auto relative">
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- 화면 1: 시작 화면                                                  -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="screen-start" class="screen active min-h-screen">
+  <main class="flex-grow flex flex-col px-7 pt-20 pb-8">
+    <div class="fade-in mb-auto">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--navy-light)] mb-8">
+        <span class="material-symbols-outlined text-[var(--navy)] text-[16px] mso-filled">school</span>
+        <span class="text-[11px] font-bold tracking-[0.15em] uppercase text-[var(--navy)]">에바연 · 바른교육연구소</span>
+      </div>
+      <h1 class="font-headline font-extrabold text-[2.4rem] leading-[1.2] tracking-tight text-[var(--on-surface)] mb-5">
+        내 진로에 딱 맞는<br/>
+        <span class="text-[var(--navy)]">탐구주제 3개</span>,<br/>
+        지금 바로
+      </h1>
+      <p class="text-[var(--on-surface-variant)] text-[15px] leading-relaxed font-medium">
+        1분이면 충분 · 에바연 탐구 자료 기반
+      </p>
+    </div>
+
+    <!-- 중앙 시각 요소 -->
+    <div class="fade-in-delay-1 my-10 relative">
+      <div class="aspect-square max-w-[240px] mx-auto relative">
+        <div class="absolute inset-0 rounded-full bg-gradient-to-br from-[var(--navy-light)] to-transparent"></div>
+        <div class="absolute inset-4 rounded-full border border-[var(--navy-border)]"></div>
+        <div class="absolute inset-10 rounded-full border border-[var(--navy-border)]"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="relative">
+            <span class="material-symbols-outlined text-[var(--navy)] mso-filled" style="font-size: 64px;">lightbulb</span>
+          </div>
+        </div>
+        <!-- 3개 orbital dot -->
+        <div class="absolute top-4 left-1/2 w-2 h-2 rounded-full bg-[var(--navy)] -translate-x-1/2"></div>
+        <div class="absolute bottom-10 left-10 w-2 h-2 rounded-full bg-[var(--navy)] opacity-40"></div>
+        <div class="absolute bottom-10 right-10 w-2 h-2 rounded-full bg-[var(--navy)] opacity-70"></div>
+      </div>
+      <div class="text-center mt-6">
+        <p class="text-[11px] tracking-[0.3em] uppercase text-[var(--on-surface-variant)] font-semibold">진로 × 교과 × 탐구</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="fade-in-delay-2 safe-bottom">
+      <button onclick="goToScreen('screen-career')" class="cta-button signature-gradient w-full py-5 rounded-2xl text-white font-headline font-bold text-[17px] shadow-[0_12px_32px_rgba(0,31,63,0.25)] flex items-center justify-center gap-2">
+        탐구주제 받기
+        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+      </button>
+      <p class="text-center text-[11px] text-[var(--on-surface-variant)] mt-5 tracking-wide opacity-60">
+        © 에바연 | 에듀케레 바른교육연구소
+      </p>
+    </div>
+  </main>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- 화면 2: 진로 선택                                                  -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="screen-career" class="screen min-h-screen">
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md">
+    <div class="flex items-center justify-between px-5 h-16">
+      <button onclick="goToScreen('screen-start')" class="p-2 -ml-2 rounded-full hover:bg-[var(--surface-low)]">
+        <span class="material-symbols-outlined text-[var(--navy)]">arrow_back</span>
+      </button>
+      <span class="font-headline font-bold text-[13px] text-[var(--navy)] tracking-wide">진로 선택</span>
+      <div class="w-10"></div>
+    </div>
+  </header>
+
+  <main class="flex-grow px-7 pt-6 pb-32">
+    <!-- 진행률 -->
+    <div class="mb-10 fade-in">
+      <div class="flex justify-between items-end mb-3">
+        <span class="font-headline font-extrabold text-[2rem] text-[var(--navy)] tracking-tight leading-none">01</span>
+        <span class="font-bold text-[var(--on-surface-variant)] text-[11px] tracking-[0.2em] uppercase">1단계 / 2단계</span>
+      </div>
+      <div class="w-full h-1 bg-[var(--surface-container)] rounded-full overflow-hidden">
+        <div class="h-full bg-[var(--navy)] rounded-full transition-all duration-700" style="width: 50%"></div>
+      </div>
+    </div>
+
+    <!-- 안내 -->
+    <div class="mb-8 fade-in-delay-1">
+      <h2 class="font-headline font-bold text-[1.6rem] leading-tight text-[var(--on-surface)] mb-3">
+        어떤 진로를<br/>준비하고 있나요?
+      </h2>
+      <p class="text-[var(--on-surface-variant)] text-[14px] leading-relaxed">
+        선택하신 계열에 맞춰 에바연이 축적한<br/>탐구 자료에서 맞춤 주제를 추천해 드립니다.
+      </p>
+    </div>
+
+    <!-- 드롭다운 -->
+    <div class="fade-in-delay-2 relative">
+      <select id="career-select" onchange="onCareerSelected()" class="appearance-none w-full bg-[var(--surface-lowest)] border border-[var(--outline-variant)] rounded-2xl px-6 py-5 pr-12 text-[var(--on-surface)] font-semibold text-[15px] focus:ring-2 focus:ring-[var(--navy)] focus:border-transparent outline-none transition cursor-pointer shadow-sm">
+        <option value="" disabled selected>계열을 선택해 주세요</option>
+      </select>
+      <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
+        <span class="material-symbols-outlined text-[var(--navy)]">unfold_more</span>
+      </div>
+    </div>
+
+    <!-- 힌트 카드 -->
+    <div class="mt-8 p-5 rounded-2xl bg-[var(--navy-light)] fade-in-delay-3">
+      <div class="flex items-start gap-3">
+        <span class="material-symbols-outlined text-[var(--navy)] text-[20px] mso-filled mt-0.5">tips_and_updates</span>
+        <p class="text-[13px] text-[var(--on-surface-variant)] leading-relaxed">
+          10개 계열 · 220개 대주제 · 1,000+ 교과 연계 세부 주제가<br/>준비되어 있습니다.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- 하단 CTA -->
+  <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/95 backdrop-blur-xl px-6 pt-4 safe-bottom border-t border-[var(--outline-variant)]/30 z-40">
+    <button id="career-next-btn" onclick="goToScreen('screen-subject')" disabled class="cta-button signature-gradient w-full py-5 rounded-2xl text-white font-headline font-bold text-[17px] shadow-[0_12px_32px_rgba(0,31,63,0.2)] flex items-center justify-center gap-2">
+      다음
+      <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+    </button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- 화면 3: 교과 선택                                                   -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="screen-subject" class="screen min-h-screen">
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md">
+    <div class="flex items-center justify-between px-5 h-16">
+      <button onclick="goToScreen('screen-career')" class="p-2 -ml-2 rounded-full hover:bg-[var(--surface-low)]">
+        <span class="material-symbols-outlined text-[var(--navy)]">arrow_back</span>
+      </button>
+      <span class="font-headline font-bold text-[13px] text-[var(--navy)] tracking-wide">교과 선택</span>
+      <div class="w-10"></div>
+    </div>
+  </header>
+
+  <main class="flex-grow px-7 pt-6 pb-32">
+    <!-- 진행률 -->
+    <div class="mb-10 fade-in">
+      <div class="flex justify-between items-end mb-3">
+        <span class="font-headline font-extrabold text-[2rem] text-[var(--navy)] tracking-tight leading-none">02</span>
+        <span class="font-bold text-[var(--on-surface-variant)] text-[11px] tracking-[0.2em] uppercase">2단계 / 2단계</span>
+      </div>
+      <div class="w-full h-1 bg-[var(--surface-container)] rounded-full overflow-hidden">
+        <div class="h-full bg-[var(--navy)] rounded-full transition-all duration-700" style="width: 100%"></div>
+      </div>
+    </div>
+
+    <!-- 안내 -->
+    <div class="mb-8 fade-in-delay-1">
+      <h2 class="font-headline font-bold text-[1.6rem] leading-tight text-[var(--on-surface)] mb-3">
+        연계하고 싶은<br/>교과 2개를 골라주세요
+      </h2>
+      <p class="text-[var(--on-surface-variant)] text-[14px] leading-relaxed">
+        탐구의 깊이는 여러 교과가 만날 때 생깁니다.
+      </p>
+    </div>
+
+    <!-- 선택 상태 표시 -->
+    <div class="mb-5 fade-in-delay-1">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--navy-light)]">
+        <span id="selection-counter-icon" class="material-symbols-outlined text-[var(--navy)] text-[16px]">radio_button_unchecked</span>
+        <span id="selection-counter" class="text-[12px] font-bold text-[var(--navy)] tracking-wide">0 / 2 선택</span>
+      </div>
+    </div>
+
+    <!-- 교과 카드 리스트 -->
+    <div class="flex flex-col gap-3 fade-in-delay-2">
+      <button onclick="toggleSubject('국어')" data-subject="국어" class="subject-card flex items-center gap-4 p-4 rounded-2xl bg-[var(--surface-lowest)] border border-[var(--outline-variant)]/40 text-left">
+        <div class="w-12 h-12 rounded-xl bg-[var(--surface-low)] flex items-center justify-center shrink-0 text-2xl">📖</div>
+        <div class="flex flex-col flex-grow">
+          <span class="font-headline font-bold text-[17px] text-[var(--on-surface)] leading-none mb-1.5">국어</span>
+          <span class="text-[11px] text-[var(--on-surface-variant)] font-medium">독서 · 화법 · 작문 · 문학</span>
+        </div>
+        <span class="check-icon material-symbols-outlined text-[var(--navy)] opacity-0 transition-opacity mso-filled">check_circle</span>
+      </button>
+
+      <button onclick="toggleSubject('수학')" data-subject="수학" class="subject-card flex items-center gap-4 p-4 rounded-2xl bg-[var(--surface-lowest)] border border-[var(--outline-variant)]/40 text-left">
+        <div class="w-12 h-12 rounded-xl bg-[var(--surface-low)] flex items-center justify-center shrink-0 text-2xl">📐</div>
+        <div class="flex flex-col flex-grow">
+          <span class="font-headline font-bold text-[17px] text-[var(--on-surface)] leading-none mb-1.5">수학</span>
+          <span class="text-[11px] text-[var(--on-surface-variant)] font-medium">대수 · 미적분 · 확률과통계 · 기하</span>
+        </div>
+        <span class="check-icon material-symbols-outlined text-[var(--navy)] opacity-0 transition-opacity mso-filled">check_circle</span>
+      </button>
+
+      <button onclick="toggleSubject('사회')" data-subject="사회" class="subject-card flex items-center gap-4 p-4 rounded-2xl bg-[var(--surface-lowest)] border border-[var(--outline-variant)]/40 text-left">
+        <div class="w-12 h-12 rounded-xl bg-[var(--surface-low)] flex items-center justify-center shrink-0 text-2xl">🌏</div>
+        <div class="flex flex-col flex-grow">
+          <span class="font-headline font-bold text-[17px] text-[var(--on-surface)] leading-none mb-1.5">사회</span>
+          <span class="text-[11px] text-[var(--on-surface-variant)] font-medium">생활과윤리 · 사회문화 · 정치와법 · 경제</span>
+        </div>
+        <span class="check-icon material-symbols-outlined text-[var(--navy)] opacity-0 transition-opacity mso-filled">check_circle</span>
+      </button>
+
+      <button onclick="toggleSubject('과학')" data-subject="과학" class="subject-card flex items-center gap-4 p-4 rounded-2xl bg-[var(--surface-lowest)] border border-[var(--outline-variant)]/40 text-left">
+        <div class="w-12 h-12 rounded-xl bg-[var(--surface-low)] flex items-center justify-center shrink-0 text-2xl">🔬</div>
+        <div class="flex flex-col flex-grow">
+          <span class="font-headline font-bold text-[17px] text-[var(--on-surface)] leading-none mb-1.5">과학</span>
+          <span class="text-[11px] text-[var(--on-surface-variant)] font-medium">물리 · 화학 · 생명과학 · 지구과학</span>
+        </div>
+        <span class="check-icon material-symbols-outlined text-[var(--navy)] opacity-0 transition-opacity mso-filled">check_circle</span>
+      </button>
+
+      <button onclick="toggleSubject('역사')" data-subject="역사" class="subject-card flex items-center gap-4 p-4 rounded-2xl bg-[var(--surface-lowest)] border border-[var(--outline-variant)]/40 text-left">
+        <div class="w-12 h-12 rounded-xl bg-[var(--surface-low)] flex items-center justify-center shrink-0 text-2xl">📜</div>
+        <div class="flex flex-col flex-grow">
+          <span class="font-headline font-bold text-[17px] text-[var(--on-surface)] leading-none mb-1.5">역사</span>
+          <span class="text-[11px] text-[var(--on-surface-variant)] font-medium">한국사 · 세계사 · 동아시아사</span>
+        </div>
+        <span class="check-icon material-symbols-outlined text-[var(--navy)] opacity-0 transition-opacity mso-filled">check_circle</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- 하단 CTA -->
+  <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white/95 backdrop-blur-xl px-6 pt-4 safe-bottom border-t border-[var(--outline-variant)]/30 z-40">
+    <button id="subject-next-btn" onclick="startGenerating()" disabled class="cta-button signature-gradient w-full py-5 rounded-2xl text-white font-headline font-bold text-[17px] shadow-[0_12px_32px_rgba(0,31,63,0.2)] flex items-center justify-center gap-2">
+      탐구주제 받기
+      <span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+    </button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- 화면 4: 생성 연출                                                   -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="screen-loading" class="screen min-h-screen relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] rounded-full opacity-[0.08] bg-gradient-to-br from-[var(--navy)] to-transparent blur-[80px]"></div>
+    <div class="absolute -bottom-[10%] -right-[10%] w-[50%] h-[50%] rounded-full opacity-[0.05] bg-[var(--navy)] blur-[100px]"></div>
+  </div>
+
+  <main class="relative z-10 flex-grow flex flex-col items-center justify-center px-8">
+    <!-- 스피너 -->
+    <div class="relative mb-10">
+      <div class="w-20 h-20 rounded-full border-[3px] border-[var(--surface-container)]"></div>
+      <div class="absolute top-0 left-0 w-20 h-20 rounded-full border-[3px] border-transparent border-t-[var(--navy)] border-l-[var(--navy)]/30 spin-curator"></div>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <span class="material-symbols-outlined text-[var(--navy)] text-[24px]">search_insights</span>
+      </div>
+    </div>
+
+    <!-- 문구 -->
+    <div class="text-center max-w-xs">
+      <h2 class="font-headline font-bold text-[20px] tracking-tight text-[var(--on-surface)] mb-3 leading-snug">
+        에바연이 교과 연계 구조를<br/>분석 중입니다
+      </h2>
+      <p class="text-[13px] text-[var(--on-surface-variant)] opacity-70 leading-relaxed">
+        축적된 탐구 자료에서 선택하신 조합에<br/>가장 적합한 주제를 엄선하고 있습니다.
+      </p>
+    </div>
+
+    <!-- 미니 진행바 -->
+    <div class="mt-12 w-full max-w-[200px]">
+      <div class="w-full h-[3px] bg-[var(--surface-container)] rounded-full overflow-hidden relative">
+        <div class="absolute h-full w-1/3 bg-gradient-to-r from-transparent via-[var(--navy)] to-transparent progress-bar"></div>
+      </div>
+      <div class="mt-3 flex items-center justify-center gap-1.5">
+        <span class="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[var(--navy)]">Analyzing</span>
+        <span class="w-1 h-1 rounded-full bg-[var(--navy)] pulse-dot"></span>
+      </div>
+    </div>
+  </main>
+
+  <!-- 하단 대형 숫자 -->
+  <div class="absolute bottom-8 left-0 right-0 flex flex-col items-center pointer-events-none">
+    <span class="font-headline font-extrabold text-[120px] text-[var(--navy)] opacity-[0.04] leading-none select-none">03</span>
+    <span class="text-[10px] font-semibold uppercase tracking-[0.3em] text-[var(--on-surface-variant)] opacity-40 mt-[-16px]">에바연 Precision</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- 화면 5: 결과                                                       -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="screen-result" class="screen min-h-screen">
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md">
+    <div class="flex items-center justify-between px-5 h-16">
+      <button onclick="restartApp()" class="p-2 -ml-2 rounded-full hover:bg-[var(--surface-low)]">
+        <span class="material-symbols-outlined text-[var(--navy)]">arrow_back</span>
+      </button>
+      <span class="font-headline font-bold text-[13px] text-[var(--navy)] tracking-wide">맞춤 탐구주제</span>
+      <div class="w-10"></div>
+    </div>
+  </header>
+
+  <main class="flex-grow px-6 pt-6 pb-10">
+    <!-- 결과 헤더 -->
+    <section class="mb-10 fade-in">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-[var(--navy)] font-bold tracking-[0.2em] text-[10px] uppercase">맞춤 분석 결과</span>
+        <span id="quota-badge" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[var(--navy-light)] text-[10px] font-bold text-[var(--navy)] tracking-wide">
+          <span class="material-symbols-outlined text-[13px]">schedule</span>
+          <span id="quota-text">오늘 남은 횟수 2회</span>
+        </span>
+      </div>
+      <h2 id="result-heading" class="font-headline font-bold text-[22px] leading-tight text-[var(--on-surface)] mb-2.5">
+        [계열] × [교과1] · [교과2]
+      </h2>
+      <p class="text-[var(--on-surface-variant)] text-[14px] leading-relaxed">
+        에바연이 추천하는 맞춤 탐구주제 3가지
+      </p>
+    </section>
+
+    <!-- 카드 3개 -->
+    <div id="result-cards" class="space-y-8 mb-12"></div>
+
+    <!-- 프리미엄 박스 -->
+    <section class="bg-[var(--navy)]/[0.04] rounded-[28px] p-7 mb-8 relative overflow-hidden fade-in-delay-3">
+      <div class="absolute top-0 right-0 w-32 h-32 bg-[var(--navy)]/[0.05] rounded-full -mr-12 -mt-12 blur-2xl"></div>
+      <div class="relative">
+        <div class="flex items-start gap-2 mb-6">
+          <span class="text-[22px]">💡</span>
+          <p class="font-bold text-[var(--navy)] leading-snug text-[15px]">
+            에바연의 실제 탐구 설계는<br/>이보다 훨씬 더 구체적입니다
+          </p>
+        </div>
+        <ul class="space-y-3.5 mb-7">
+          <li class="flex items-center gap-3 text-[var(--on-surface-variant)] font-medium text-[13px]">
+            <span class="material-symbols-outlined text-[var(--navy)] text-[18px] mso-filled">lock</span>
+            탐구 방법 · 단계별 설계
+          </li>
+          <li class="flex items-center gap-3 text-[var(--on-surface-variant)] font-medium text-[13px]">
+            <span class="material-symbols-outlined text-[var(--navy)] text-[18px] mso-filled">lock</span>
+            교과 연계 개념 심화
+          </li>
+          <li class="flex items-center gap-3 text-[var(--on-surface-variant)] font-medium text-[13px]">
+            <span class="material-symbols-outlined text-[var(--navy)] text-[18px] mso-filled">lock</span>
+            세특 기재 포인트
+          </li>
+          <li class="flex items-center gap-3 text-[var(--on-surface-variant)] font-medium text-[13px]">
+            <span class="material-symbols-outlined text-[var(--navy)] text-[18px] mso-filled">lock</span>
+            확장 · 심화 방향
+          </li>
+        </ul>
+        <p class="text-center text-[12px] text-[var(--on-surface-variant)] mb-4 opacity-80">
+          에바연 자료에서 상세 설명 확인
+        </p>
+        <a href="https://www.educereedu.com/142" target="_blank" rel="noopener" class="cta-button signature-gradient w-full py-[18px] rounded-2xl text-white font-headline font-bold text-[16px] shadow-[0_12px_28px_rgba(0,31,63,0.25)] flex items-center justify-center gap-2">
+          에바연에서 상세 설계 받기
+          <span class="material-symbols-outlined text-[18px]">north_east</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 다시 받기 -->
+    <div id="regen-container" class="text-center pb-8">
+      <button id="regen-button" onclick="regenerateResults()" class="inline-flex items-center gap-2 border border-[var(--outline-variant)] text-[var(--on-surface-variant)] px-7 py-3 rounded-full font-semibold text-[13px] hover:bg-[var(--surface-low)] transition">
+        <span class="material-symbols-outlined text-[16px]">refresh</span>
+        다른 주제로 다시 받기
+      </button>
+      <p id="regen-hint" class="text-[11px] text-[var(--on-surface-variant)] mt-3 opacity-70"></p>
+    </div>
+  </main>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- 화면 6: 한도 소진 화면                                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="screen-limit" class="screen min-h-screen relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] rounded-full opacity-[0.08] bg-gradient-to-br from-[var(--navy)] to-transparent blur-[80px]"></div>
+  </div>
+
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md">
+    <div class="flex items-center justify-between px-5 h-16">
+      <button onclick="restartApp()" class="p-2 -ml-2 rounded-full hover:bg-[var(--surface-low)]">
+        <span class="material-symbols-outlined text-[var(--navy)]">arrow_back</span>
+      </button>
+      <span class="font-headline font-bold text-[13px] text-[var(--navy)] tracking-wide">오늘의 조회 마감</span>
+      <div class="w-10"></div>
+    </div>
+  </header>
+
+  <main class="relative z-10 flex-grow flex flex-col items-center justify-center px-8 py-12">
+    <!-- 아이콘 -->
+    <div class="relative mb-8 fade-in">
+      <div class="w-24 h-24 rounded-full bg-[var(--navy-light)] flex items-center justify-center ring-8 ring-[var(--navy)]/[0.03]">
+        <span class="material-symbols-outlined text-[var(--navy)] text-[44px] mso-filled">schedule</span>
+      </div>
+    </div>
+
+    <!-- 메인 메시지 -->
+    <div class="text-center max-w-sm fade-in-delay-1 mb-10">
+      <h2 class="font-headline font-bold text-[24px] tracking-tight text-[var(--on-surface)] leading-snug mb-4">
+        오늘의 탐구주제 조회를<br/>모두 사용하셨습니다
+      </h2>
+      <p class="text-[14px] text-[var(--on-surface-variant)] leading-relaxed">
+        오늘 3회 조회로 총 <span class="font-bold text-[var(--navy)]">9개의 탐구주제</span>를<br/>
+        확인하셨습니다. 자정이 지나면 다시 이용하실 수 있습니다.
+      </p>
+    </div>
+
+    <!-- CTA 박스 -->
+    <section class="w-full max-w-sm bg-[var(--navy)]/[0.04] rounded-[24px] p-6 fade-in-delay-2">
+      <div class="flex items-start gap-2 mb-4">
+        <span class="text-[20px]">💡</span>
+        <p class="font-bold text-[var(--navy)] leading-snug text-[14px]">
+          오늘 본 주제가 마음에 드셨다면,<br/>
+          에바연에서 더 깊이 있는 설계를 받아보세요
+        </p>
+      </div>
+      <ul class="space-y-2.5 mb-6 pl-1">
+        <li class="flex items-center gap-2.5 text-[var(--on-surface-variant)] font-medium text-[12px]">
+          <span class="w-1 h-1 rounded-full bg-[var(--navy)]"></span>
+          계열·교과 제한 없이 무제한 설계
+        </li>
+        <li class="flex items-center gap-2.5 text-[var(--on-surface-variant)] font-medium text-[12px]">
+          <span class="w-1 h-1 rounded-full bg-[var(--navy)]"></span>
+          탐구 방법과 세특 기재까지 구체 가이드
+        </li>
+        <li class="flex items-center gap-2.5 text-[var(--on-surface-variant)] font-medium text-[12px]">
+          <span class="w-1 h-1 rounded-full bg-[var(--navy)]"></span>
+          학생 상황에 맞춘 개별 맞춤
+        </li>
+      </ul>
+      <a href="https://www.educereedu.com/142" target="_blank" rel="noopener" class="cta-button signature-gradient w-full py-[16px] rounded-2xl text-white font-headline font-bold text-[15px] shadow-[0_10px_24px_rgba(0,31,63,0.25)] flex items-center justify-center gap-2">
+        에바연에서 상세 설계 받기
+        <span class="material-symbols-outlined text-[16px]">north_east</span>
+      </a>
+    </section>
+
+    <!-- 보조 -->
+    <button onclick="restartApp()" class="mt-6 text-[12px] text-[var(--on-surface-variant)] underline underline-offset-2 opacity-70 fade-in-delay-3">
+      처음 화면으로 돌아가기
+    </button>
+  </main>
+</section>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// 데이터베이스 내장 (JSON)
+// ═══════════════════════════════════════════════════════════════
+const DB = {"앱정보":{"앱이름":"내 진로 맞춤 탐구주제 3개 받기","제작":"에바연 (에듀케레 바른교육연구소)","교과목록":["국어","수학","사회","과학","역사"],"서비스페이지URL":"https://www.educereedu.com/142"},"계열목록":[{"계열명":"의약·생명계열","대주제_수":40,"대주제_목록":[{"번호":1,"대주제":"CRISPR 유전자 편집 기술의 윤리적 한계 분석","교과별_축약주제":{"국어":"[국어] CRISPR 유전자 편집 관련 과학 논문과 윤리 비평문을 비교 독해하고 탐구","수학":"[수학] CRISPR 유전자 편집의 성공률 데이터를 활용한 확률 분포 분석","과학":"[과학] CRISPR-Cas9의 DNA 이중나선 절단 메커니즘","사회":"[사회] 유전자 편집 기술의 윤리적 쟁점","역사":"[역사] CRISPR 유전자 편집 기술의 역사적 맥락"}},{"번호":2,"대주제":"mRNA 백신의 면역 반응 메커니즘","교과별_축약주제":{"국어":"[국어] mRNA 백신의 과학적 원리를 비전문가에게 설명하는 과학 커뮤니케이션 화법 전략 탐구","수학":"[수학] mRNA 백신 접종 후 항체 농도 변화를 지수함수·로그함수로 모델링","과학":"[과학] mRNA 백신이 체내 면역계를 활성화하는 과정","사회":"[사회] 감염병 팬데믹이 사회 구조에 미친 영향","역사":"[역사] mRNA 백신과 감염병 대응의 역사"}},{"번호":3,"대주제":"항생제 내성 발생 과정과 해결 전략","교과별_축약주제":{"국어":"[국어] 항생제 내성 문제를 다룬 과학 보고서와 언론 기사의 정보 전달 방식 비교","수학":"[수학] 항생제 내성균 출현 빈도의 통계적 분석","과학":"[과학] 항생제 내성균의 자연선택 과정 분석","사회":"[사회] 항생제 내성 문제의 윤리적 책임","역사":"[역사] 항생제 내성과 의학 혁명의 역사"}},{"번호":4,"대주제":"암세포의 세포주기 조절 이상 분석","교과별_축약주제":{"국어":"[국어] 암세포 연구 성과를 대중에게 알리는 과학 칼럼 작성","수학":"[수학] 암세포 증식 속도의 수학적 모델링","과학":"[과학] 암세포의 세포주기 조절 실패와 종양억제유전자","사회":"[사회] 암 치료 선택에서 환자 자율성과 의료윤리","역사":"[역사] 암 연구의 역사적 전개"}},{"번호":5,"대주제":"면역항암제의 작용 원리 비교","교과별_축약주제":{"국어":"[국어] 면역항암제 비교 분석 논문 읽기를 통한 비교·대조 구조의 논리적 글쓰기 방법 탐구 및 설명문 구조 분석","수학":"[수학] 면역항암제 효과 비교를 위한 수학적 모델","과학":"[과학] 면역관문억제제의 T세포 활성화 원리","사회":"[사회] 면역항암제 접근성의 사회적 불평등 분석","역사":"[역사] 면역학 발전과 한국 근대 의료사"}},{"번호":6,"대주제":"장내 미생물과 인간 건강의 상관관계","교과별_축약주제":{"국어":"[국어] 장내 미생물과 건강의 관계를 주제로 한 과학 에세이 작성","수학":"[수학] 장내 미생물 다양성과 건강 지표의 상관관계 분석","과학":"[과학] 장내 미생물 군집과 숙주 면역계의 상호작용","사회":"[사회] 장내 미생물 연구와 식문화의 사회적 맥락","역사":"[역사] 장내 미생물과 동아시아 발효 식문화의 역사"}},{"번호":7,"대주제":"혈액형 항원 구조와 면역 반응","교과별_축약주제":{"국어":"[국어] 혈액형과 성격 관련 속설의 과학적 근거를 따지는 토론 화법","수학":"[수학] 혈액형 분포와 유전 법칙의 확률 분석","과학":"[과학] ABO 혈액형의 항원-항체 반응 원리","사회":"[사회] 수혈·장기이식의 법적 규제와 권리","역사":"[역사] 혈액형 발견과 수혈 의학의 역사"}},{"번호":8,"대주제":"줄기세포 치료 기술의 한계","교과별_축약주제":{"국어":"[국어] 줄기세포 치료의 윤리적 딜레마를 다룬 SF 문학 작품 분석","수학":"[수학] 줄기세포 분화율의 시간에 따른 변화를 미분으로 분석","과학":"[과학] 줄기세포의 분화 과정과 세포 신호전달","사회":"[사회] 줄기세포 연구의 생명윤리적 쟁점","역사":"[역사] 줄기세포 연구와 생명과학 윤리의 역사"}},{"번호":9,"대주제":"바이러스 변이와 백신 효과 변화","교과별_축약주제":{"국어":"[국어] 바이러스 변이 관련 WHO 보고서와 뉴스 기사의 정보 전달 차이 분석","수학":"[수학] 바이러스 변이 발생과 백신 효과의 확률적 모델","과학":"[과학] 바이러스 변이 유형(항원변이·항원대변이) 분석","사회":"[사회] 바이러스 변이와 사회적 대응의 문화적 차이","역사":"[역사] 바이러스 변이와 팬데믹의 세계사"}},{"번호":10,"대주제":"DNA 복제 과정 오류와 질병","교과별_축약주제":{"국어":"[국어] DNA 복제 오류로 인한 유전 질환을 주제로 한 탐구 보고서 작성법","수학":"[수학] DNA 복제 오류 발생률의 통계 분석","과학":"[과학] DNA 복제 과정의 프루프리딩 메커니즘과 오류","사회":"[사회] 유전자 검사와 프라이버시 권리의 윤리적 갈등","역사":"[역사] DNA 이중나선 발견과 분자생물학 혁명의 역사"}},{"번호":11,"대주제":"신약 개발 과정의 임상시험 구조 분석","교과별_축약주제":{"국어":"[국어] 신약 임상시험의 참여 동의서(설명문)에 사용된 언어 분석","수학":"[수학] 임상시험 데이터의 통계적 유의성 검정","과학":"[과학] 신약 후보물질의 분자 구조와 약효 관계","사회":"[사회] 신약 개발의 경제적 구조 분석","역사":"[역사] 신약 개발과 한국 제약 산업의 역사"}},{"번호":12,"대주제":"약물 전달 시스템 비교","교과별_축약주제":{"국어":"[국어] 약물 전달 시스템 관련 과학 텍스트를 읽고 비교·분류의 설명 방식과 도표 활용 전략을 분석","수학":"[수학] 약물 체내 농도 변화의 수학적 모델링","과학":"[과학] 약물 전달 나노입자의 화학적 구조 분석","사회":"[사회] 약물 전달 나노기술의 의료 산업 경제적 파급효과","역사":"[역사] 약물 전달과 동아시아 전통 의약의 역사"}},{"번호":13,"대주제":"인공장기의 작동 원리","교과별_축약주제":{"국어":"[국어] 인공장기 기술의 발전과 미래를 주제로 한 설득적 글쓰기","수학":"[수학] 인공장기 3D 구조 설계의 기하학적 분석","과학":"[과학] 인공장기 소재의 생체적합성 탐구","사회":"[사회] 인공장기·이종장기 이식의 윤리적 쟁점","역사":"[역사] 인공장기와 장기이식의 역사"}},{"번호":14,"대주제":"알레르기 반응의 생리학적 기전","교과별_축약주제":{"국어":"[국어] 알레르기 관련 의학 정보를 환자에게 전달하는 의료 커뮤니케이션 분석","수학":"[수학] 알레르기 반응에서 히스타민 분비량의 시간별 변화율 분석","과학":"[과학] 비만세포의 히스타민 분비와 알레르기 반응","사회":"[사회] 알레르기 질환 증가의 사회환경적 요인 분석","역사":"[역사] 알레르기 질환 증가와 한국 산업화의 역사적 관계"}},{"번호":15,"대주제":"호르몬 조절과 항상성 유지","교과별_축약주제":{"국어":"[국어] 호르몬과 항상성을 소재로 한 과학 수필 분석","수학":"[수학] 호르몬 농도의 주기적 변화를 삼각함수로 모델링","과학":"[과학] 내분비계의 호르몬 피드백 조절 원리","사회":"[사회] 호르몬 교란 물질과 환경정의","역사":"[역사] 호르몬 연구와 동아시아 의학사"}},{"번호":16,"대주제":"혈당 조절 메커니즘과 당뇨","교과별_축약주제":{"국어":"[국어] 당뇨 관련 건강 정보 텍스트의 신뢰성 평가","수학":"[수학] 혈당 조절 메커니즘의 피드백 모델을 함수로 표현","과학":"[과학] 인슐린·글루카곤에 의한 혈당 항상성 유지","사회":"[사회] 당뜨병 치료제 시장의 경제적 구조 분석","역사":"[역사] 혈당 조절과 인슐린 발견의 역사"}},{"번호":17,"대주제":"뇌 신경전달물질과 행동","교과별_축약주제":{"국어":"[국어] 뇌과학과 인간 행동을 다룬 문학 작품 속 인물 심리 분석","수학":"[수학] 신경전달물질 분비량과 행동 반응의 상관관계 통계 분석","과학":"[과학] 신경전달물질의 시냅스 전달 메커니즘","사회":"[사회] 정신건강 치료와 사회적 낙인의 윤리","역사":"[역사] 뇌 신경과학 연구의 역사"}},{"번호":18,"대주제":"감염병 확산 모델 분석","교과별_축약주제":{"국어":"[국어] 감염병 확산 상황에서의 공공 보건 담화 분석","수학":"[수학] 감염병 확산의 SIR 모델 수학적 분석","과학":"[과학] SIR 감염병 확산 모델의 생물학적 기초","사회":"[사회] 감염병 관리법과 개인 자유의 법적 균형","역사":"[역사] 감염병 확산과 한국 방역의 역사"}},{"번호":19,"대주제":"의료 데이터 기반 질병 예측","교과별_축약주제":{"국어":"[국어] 의료 빅데이터와 질병 예측을 주제로 한 학술적 글쓰기","수학":"[수학] 의료 데이터 기반 질병 예측의 통계적 방법","과학":"[과학] 유전체 분석을 통한 질병 위험도 예측","사회":"[사회] 유전체 분석과 유전정보 차별 금지의 윤리","역사":"[역사] 의료 데이터와 공중보건의 역사"}},{"번호":20,"대주제":"개인 맞춤형 의료의 가능성","교과별_축약주제":{"국어":"[국어] 개인 맞춤형 의료 관련 찬반 사설을 비교 독해하고 탐구","수학":"[수학] 개인 맞춤형 의료에서 유전 데이터의 통계적 분류","과학":"[과학] 약물유전체학의 원리와 맞춤의료","사회":"[사회] 맞춤의료와 의료 형평성의 윤리적 갈등","역사":"[역사] 개인 맞춤형 의료와 인간 게놈 프로젝트의 역사"}},{"번호":21,"대주제":"반려동물 비만이 관절 질환 발생에 미치는 영향을 생리학적 원리와 통계 데이터를 통해 분석","교과별_축약주제":{"국어":"[국어] 반려동물 비만과 관절 질환 관련 수의학 논문을 읽고 탐구","수학":"[수학] 반려동물 비만률과 관절 질환 발생률의 상관관계 통계 분석","과학":"[과학] 반려동물 비만으로 인한 관절 염증 발생의 생리학적 메커니즘","사회":"[사회] 반려동물 비만 증가와 반려동물 양육 문화의 사회적 변화","역사":"[역사] 반려동물 양육 문화의 역사적 변천"}},{"번호":22,"대주제":"품종별 유전 질환 발생 차이를 유전 법칙과 확률 모델을 통해 설명","교과별_축약주제":{"국어":"[국어] 품종별 유전 질환을 다룬 과학 보고서의 분류·비교 서술 방식 분석","수학":"[수학] 품종별 유전 질환 발생 확률의 통계적 비교","과학":"[과학] 품종별 유전 질환의 유전학적 원리 분석","사회":"[사회] 품종 개량과 동물 복지의 윤리적 쫥점","역사":"[역사] 품종 개량의 역사와 유전학의 발전"}},{"번호":23,"대주제":"동물 백신의 면역 반응 과정과 예방 효과를 과학적 원리와 사회적 필요성으로 해석","교과별_축약주제":{"국어":"[국어] 동물 백신의 필요성을 반려인에게 설명하는 수의사의 화법 전략 분석","수학":"[수학] 동물 백신 접종 후 항체 생성률의 통계적 분석","과학":"[과학] 동물 백신의 면역 반응 경로 분석","사회":"[사회] 동물 백신 접종 정책의 사회적 수용성 분석","역사":"[역사] 동물 백신과 수의학의 역사적 발전"}},{"번호":24,"대주제":"항생제 내성 문제를 생명과학적 원인과 사회적 확산 구조로 분석","교과별_축약주제":{"국어":"[국어] 항생제 내성 문제를 다룬 수의학·공중보건 분야 텍스트의 정보 전달 방식 비교","수학":"[수학] 항생제 내성균 증식 속도의 수학적 모델링","과학":"[과학] 동물에서의 항생제 내성균 출현 과정","사회":"[사회] 축산업에서의 항생제 사용과 동물 복지 윤리","역사":"[역사] 항생제 내성과 축산업의 역사"}},{"번호":25,"대주제":"반려동물의 스트레스 행동을 신경계 작용과 환경 요인 측면에서 해석하고 행동 교정 방안을 탐구","교과별_축약주제":{"국어":"[국어] 반려동물 스트레스 행동 관찰 보고서 작성법 탐구","수학":"[수학] 반려동물 스트레스 행동 빈도 데이터의 통계적 분석","과학":"[과학] 반려동물 스트레스 반응의 신경내분비학적 기전","사회":"[사회] 반려동물 양육 환경과 동물 행동 문제의 사회적 요인","역사":"[역사] 동아시아의 전통적 동물 사육과 인간-동물 관계의 역사"}},{"번호":26,"대주제":"동물의 소화기관 구조 차이를 생물학적 적응과 식습관 변화 관점에서 비교 분석","교과별_축약주제":{"국어":"[국어] 동물 소화기관 비교 분석 논문 읽기를 통한 비교·대조 텍스트의 구조 분석","수학":"[수학] 동물 소화기관별 영양소 흡수율 변화를 함수 그래프로 모델링","과학":"[과학] 동물 소화기관의 구조적 적응 분석","사회":"[사회] 동물 사료 산업의 사회적 구조 분석","역사":"[역사] 동물 해부학 연구의 역사"}},{"번호":27,"대주제":"수의학 영상진단 기술을 물리학적 원리와 의료적 활용 측면에서 비교 분석","교과별_축약주제":{"국어":"[국어] 수의학 영상진단 기술을 비전문가에게 설명하는 과학 커뮤니케이션 전략","수학":"[수학] 수의학 영상진단(X-ray·CT·MRI)의 영상 데이터를 좌표계와 벡터로 해석","과학":"[과학] 수의학 영상진단 기술의 물리학적 원리 분석","사회":"[사회] 수의학 영상진단 기술의 의료 산업 경제적 파급효과","역사":"[역사] 의료 영상 기술 발전의 역사"}},{"번호":28,"대주제":"동물 심장 질환 발생 원인을 순환계 구조와 기능적 이상 관점에서 분석","교과별_축약주제":{"국어":"[국어] 동물 심장 질환의 원인과 치료를 주제로 한 과학 칼럼 작성","수학":"[수학] 동물 심장 박동 주기의 수학적 모델링","과학":"[과학] 동물 심장 질환의 순환계 생리학적 분석","사회":"[사회] 동물 심장 질환 치료와 반려동물 의료비 부담의 윤리적 쫥점","역사":"[역사] 심장 수술과 순환계 연구의 역사"}},{"번호":29,"대주제":"동물의 노화 과정에 따른 질병 발생 변화를 생리학적 변화와 통계 자료를 통해 설명","교과별_축약주제":{"국어":"[국어] 동물 노화와 질병 관련 과학 텍스트를 읽고 시간 순서에 따른 서술 구조와 통계 자료 인용 방식의 신뢰성을 분석","수학":"[수학] 동물 노화 단계별 질병 발생률의 통계적 분석","과학":"[과학] 동물 노화의 세포생물학적 기전 분석","사회":"[사회] 동물 노화와 반려동물 고령화 문제의 사회적 의미","역사":"[역사] 노화 연구의 과학사적 전개"}},{"번호":30,"대주제":"동물 응급처치 과정에서의 골든타임 개념을 생리학적 변화와 시간 함수로 분석","교과별_축약주제":{"국어":"[국어] 동물 응급 상황에서 보호자와 수의사 간 위기 커뮤니케이션 화법 분석","수학":"[수학] 동물 응급처치 시 시간에 따른 생체 기능 변화를 함수로 모델링","과학":"[과학] 동물 응급 상황에서의 생체 항상성 붕괴 과정","사회":"[사회] 동물 응급처치와 동물 구급 활동의 법적 체계","역사":"[역사] 한국 동물 구급 체계의 역사적 형성"}},{"번호":31,"대주제":"동물 보호소에서의 질병 관리 체계를 감염병 확산 모델과 사회적 시스템 측면에서 분석","교과별_축약주제":{"국어":"[국어] 동물 보호소의 질병 관리 실태를 주제로 한 탐구 보고서 작성","수학":"[수학] 동물 보호소 감염병 확산 데이터의 통계적 분석","과학":"[과학] 동물 보호소 환경에서의 감염병 확산 메커니즘","사회":"[사회] 동물 보호소의 질병 관리 정책과 동물보호법 분석","역사":"[역사] 한국 동물 보호 정책의 역사"}},{"번호":32,"대주제":"인수공통감염병의 전파 과정을 생물학적 메커니즘과 사회적 확산 구조로 해석","교과별_축약주제":{"국어":"[국어] 인수공통감염병 관련 WHO 보고서와 뉴스 기사의 정보 전달 차이 분석","수학":"[수학] 인수공통감염병의 SIR 모델 수학적 분석","과학":"[과학] 인수공통감염병의 종간 전파 메커니즘 분석","사회":"[사회] 인수공통감염병 확산과 사회적 대응의 문화적 차이","역사":"[역사] 인수공통감염병과 팬데믹의 세계사"}},{"번호":33,"대주제":"반려동물 사료 성분이 건강에 미치는 영향을 영양소 작용과 대사 과정으로 분석","교과별_축약주제":{"국어":"[국어] 반려동물 사료 성분 표시를 둘러싼 소비자·제조사 간 토론 화법 분석","수학":"[수학] 반려동물 사료 성분별 건강 지표 변화의 통계적 분석","과학":"[과학] 반려동물 사료 성분의 화학적 분석","사회":"[사회] 반려동물 사료 시장의 경제적 구조 분석","역사":"[역사] 동아시아 전통 동물 사료와 가축 영양의 역사"}},{"번호":34,"대주제":"동물 행동 교정 방법을 학습 이론과 행동 변화 데이터로 설명","교과별_축약주제":{"국어":"[국어] 동물 행동 교정 사례를 주제로 한 과학 에세이 작성","수학":"[수학] 동물 행동 교정 전후 데이터의 통계적 유의성 검정","과학":"[과학] 동물 행동 교정의 신경생물학적 기초","사회":"[사회] 동물 행동 교정 산업의 사회적 성장 배경","역사":"[역사] 동물 행동학의 과학사적 발전"}},{"번호":35,"대주제":"수의학에서의 안락사 기준을 생명윤리와 사회적 가치 판단 관점에서 탐구","교과별_축약주제":{"국어":"[국어] 동물 안락사 문제를 다룬 문학 작품 속 윤리적 딜레마 분석","수학":"[수학] 안락사 결정 기준의 통계적 모델링","과학":"[과학] 수의학에서의 안락사 결정의 생명윤리적 분석","사회":"[사회] 동물 안락사의 윤리적 쫥점 분석","역사":"[역사] 동물 안락사 논쟁의 역사적 전개"}},{"번호":36,"대주제":"동물 실험의 윤리적 문제를 생명윤리학과 대체 기술 관점에서 분석","교과별_축약주제":{"국어":"[국어] 동물 실험 윤리를 다룬 찬반 사설을 비교 독해하고 탐구","수학":"[수학] 동물 실험 데이터의 통계적 유의성 검정","과학":"[과학] 동물 실험의 과학적 타당성과 대체 기술 분석","사회":"[사회] 동물 실험 윤리와 동물권 법제화 논의","역사":"[역사] 동물 실험 윤리의 역사적 형성"}},{"번호":37,"대주제":"유기동물 증가 원인을 사회 구조와 정책 문제 관점에서 분석하고 해결 방안을 탐구","교과별_축약주제":{"국어":"[국어] 유기동물 문제의 원인과 해결 방안을 주제로 한 설득적 글쓰기","수학":"[수학] 유기동물 발생 데이터의 시계열 분석","과학":"[과학] 유기동물 발생의 동물 행동학적 분석","사회":"[사회] 유기동물 문제와 동물보호법의 법적 분석","역사":"[역사] 한국 유기동물 문제의 역사적 배경"}},{"번호":38,"대주제":"축산 동물 질병 관리 시스템을 감염병 예방 원리와 데이터 기반 관리 방식으로 분석","교과별_축약주제":{"국어":"[국어] 축산 동물 질병 관리 정책을 둘러싼 공청회 발언 분석","수학":"[수학] 축산 동물 질병 발생 빈도의 통계적 분석","과학":"[과학] 축산 동물 감염병 예방의 면역학적 원리","사회":"[사회] 축산 동물 질병 발생의 경제적 피해 분석","역사":"[역사] 한국 축산 방역 체계의 역사"}},{"번호":39,"대주제":"동물의 체온 조절 메커니즘을 항상성과 열 전달 원리로 설명","교과별_축약주제":{"국어":"[국어] 동물 체온 조절과 항상성을 다룬 과학 교양서 읽기","수학":"[수학] 동물 체온 변화의 시간에 따른 함수 모델링","과학":"[과학] 동물 체온 조절의 열역학적 원리 분석","사회":"[사회] 동물 체온 조절과 기후변화의 사회환경적 맥락","역사":"[역사] 동물 체온 조절 연구와 생리학의 역사"}},{"번호":40,"대주제":"동물 약물 투여량 계산을 체중 기반 비례 관계와 함수 모델로 분석","교과별_축약주제":{"국어":"[국어] 동물 약물 투여량 계산의 중요성을 주제로 한 과학 보고서 작성","수학":"[수학] 동물 약물 체내 농도 변화의 수학적 모델링","과학":"[과학] 동물 약물의 체내 대사 과정 분석","사회":"[사회] 동물 약품 시장의 경제적 구조 분석","역사":"[역사] 동아시아 전통 수의학과 약물 치료의 역사"}}]},{"계열명":"공학계열","대주제_수":20,"대주제_목록":[{"번호":1,"대주제":"인공지능 알고리즘의 구조 분석","교과별_축약주제":{"국어":"[국어] AI 알고리즘 관련 기술 해설서와 비판적 에세이를 비교 독해하고 탐구","수학":"[수학] AI 알고리즘의 가중치 계산 구조를 행렬과 연립방정식으로 분석","과학":"[과학] AI 신경망의 생물학적 뉴런 모방 원리","사회":"[사회] AI 편향성과 알고리즘 차별의 윤리적 쟁점","역사":"[역사] 인공지능 발전의 역사"}},{"번호":2,"대주제":"자율주행 차량의 센서 기술 비교","교과별_축약주제":{"국어":"[국어] 자율주행 센서 기술을 비교·분석하는 기술 보고서 작성","수학":"[수학] 자율주행 센서의 거리 측정 원리를 공간좌표·벡터로 분석","과학":"[과학] 자율주행 센서의 전자기파 활용 원리","사회":"[사회] 자율주행차 사고의 법적 책임 소재","역사":"[역사] 자동차 기술 발전과 산업혁명의 역사"}},{"번호":3,"대주제":"반도체 공정과 미세화 기술","교과별_축약주제":{"국어":"[국어] 반도체 공정의 전문 용어를 비전문가에게 설명하는 화법 전략","수학":"[수학] 반도체 미세화에 따른 트랜지스터 수 증가를 지수함수로 분석","과학":"[과학] 반도체의 에너지 띠 구조와 전기전도성","사회":"[사회] 반도체 산업의 글로벌 공급망과 경제 안보","역사":"[역사] 반도체 산업과 한국 경제 발전의 역사"}},{"번호":4,"대주제":"태양광 발전 효율 향상 방법","교과별_축약주제":{"국어":"[국어] 태양광 발전 효율 관련 과학 논문과 정책 보고서의 정보 전달 방식 비교","수학":"[수학] 태양광 발전 효율을 함수 최적화로 분석","과학":"[과학] 태양전지의 광전효과 원리 분석","사회":"[사회] 재생에너지 산업의 경제적 타당성 분석","역사":"[역사] 태양광 발전과 에너지 전환의 역사"}},{"번호":5,"대주제":"풍력 발전 시스템 설계","교과별_축약주제":{"국어":"[국어] 풍력 발전 시스템의 장단점을 다룬 설득적 글쓰기","수학":"[수학] 풍력 발전 출력을 풍속의 세제곱 함수로 모델링","과학":"[과학] 풍력 터빈의 역학적 에너지 변환 원리","사회":"[사회] 풍력 발전 입지 선정의 사회적 갈등","역사":"[역사] 풍력 에너지 활용의 역사"}},{"번호":6,"대주제":"스마트시티 기술 구조","교과별_축약주제":{"국어":"[국어] 스마트시티 관련 다양한 텍스트(기사·보고서·칼럼) 비교 독해","수학":"[수학] 스마트시티 교통 데이터의 통계적 분석","과학":"[과학] 스마트시티의 환경 모니터링 센서 원리","사회":"[사회] 스마트시티의 공간적 구조와 도시 계획","역사":"[역사] 스마트시티와 동아시아 도시화의 역사"}},{"번호":7,"대주제":"로봇공학에서의 제어 시스템","교과별_축약주제":{"국어":"[국어] 로봇공학 제어 시스템을 주제로 한 학술 발표 화법 분석","수학":"[수학] 로봇 제어 시스템의 PID 제어를 미분·적분 개념으로 분석","과학":"[과학] 로봇 관절의 역학적 운동 분석","사회":"[사회] 로봇 자동화와 노동시장 변화의 경제적 분석","역사":"[역사] 자동화 기술과 산업혁명의 역사"}},{"번호":8,"대주제":"전기차 배터리 기술 비교","교과별_축약주제":{"국어":"[국어] 전기차 배터리 기술 비교 분석 글에서 비교·분류의 설명 방식과 도표 활용 전략을 분석","수학":"[수학] 전기차 배터리 방전 곡선을 지수함수·로그함수로 비교 분석","과학":"[과학] 리튬이온 배터리의 산화-환원 반응 원리","사회":"[사회] 전기차 배터리와 자원 채굴의 윤리적 쟁점","역사":"[역사] 전기 기술 발전과 배터리의 역사"}},{"번호":9,"대주제":"열역학 법칙과 에너지 효율","교과별_축약주제":{"국어":"[국어] 열역학 법칙과 에너지 효율을 주제로 한 과학 에세이 작성","수학":"[수학] 열역학 법칙에서 에너지 변환 효율을 적분으로 분석","과학":"[과학] 열역학 제1·2법칙과 열기관 효율","사회":"[사회] 에너지 효율과 환경윤리의 관계","역사":"[역사] 열역학 법칙 발견과 산업혁명의 역사"}},{"번호":10,"대주제":"구조물 안전 설계 원리","교과별_축약주제":{"국어":"[국어] 구조물 안전 설계 관련 전문가 인터뷰 담화 분석","수학":"[수학] 구조물 안전 설계에서 힘의 벡터 분해 분석","과학":"[과학] 건축구조물에 작용하는 힘의 분석","사회":"[사회] 지진·태풍 대비 건축과 자연재해의 지리적 분포","역사":"[역사] 건축 구조와 한국 전통 건축의 역사"}},{"번호":11,"대주제":"드론 항공역학 분석","교과별_축약주제":{"국어":"[국어] 드론 항공역학을 주제로 한 탐구 보고서 작성","수학":"[수학] 드론 비행 경로의 수학적 최적화","과학":"[과학] 드론 비행의 공기역학적 원리","사회":"[사회] 드론 비행 규제의 법적 체계와 사생활 보호","역사":"[역사] 항공 기술 발전의 역사"}},{"번호":12,"대주제":"3D 프린팅 기술 활용","교과별_축약주제":{"국어":"[국어] 3D 프린팅 기술 활용 사례를 다룬 다양한 텍스트의 정보 구조와 예시 활용 방법 비교 분석","수학":"[수학] 3D 프린팅 입체 구조의 부피·넓이 계산","과학":"[과학] 3D 프린팅 소재의 고분자 화학 분석","사회":"[사회] 3D 프린팅 산업의 경제적 파급효과","역사":"[역사] 인쇄 기술 혁명과 3D 프린팅의 역사"}},{"번호":13,"대주제":"신소재 개발과 응용","교과별_축약주제":{"국어":"[국어] 신소재 개발을 소재로 한 SF 문학 작품 속 과학 기술의 문학적 형상화","수학":"[수학] 신소재 물성 데이터를 행렬로 정리하고 일차변환으로 분석","과학":"[과학] 신소재(그래핀·탄소나노튜브)의 화학 결합 구조","사회":"[사회] 신소재 산업의 경제적 가치와 산업 구조","역사":"[역사] 신소재 개발과 동아시아 재료 기술의 역사"}},{"번호":14,"대주제":"IoT 시스템 구조","교과별_축약주제":{"국어":"[국어] IoT 기술 구조를 일반 청중에게 설명하는 프레젠테이션 화법","수학":"[수학] IoT 네트워크 연결 구조를 그래프 이론과 행렬로 분석","과학":"[과학] IoT 센서의 전자기파 통신 원리","사회":"[사회] IoT와 사생활 침해의 사회적 쟁점","역사":"[역사] 통신 기술 발전과 IoT의 역사"}},{"번호":15,"대주제":"인공지능 윤리 문제","교과별_축약주제":{"국어":"[국어] AI 윤리 관련 찬반 사설을 비교 독해하고 논증의 전제·근거·주장 구조를 분석하여 비판적 사고력 키우기","수학":"[수학] AI 판단 오류율의 통계적 분석","과학":"[과학] AI 윤리에서 과학기술의 사회적 영향","사회":"[사회] AI 윤리 가이드라인과 기술 책임의 윤리적 원칙","역사":"[역사] AI 윤리와 기술 규제의 역사"}},{"번호":16,"대주제":"반도체 트랜지스터 원리","교과별_축약주제":{"국어":"[국어] 반도체 트랜지스터 원리를 설명하는 과학 칼럼 작성","수학":"[수학] 트랜지스터 ON/OFF 동작을 이진법과 논리연산으로 분석","과학":"[과학] 트랜지스터의 전자 이동과 스위칭 원리","사회":"[사회] 디지털 전환과 반도체 수출의 경제적 효과","역사":"[역사] 반도체 트랜지스터와 한국 전자산업의 역사"}},{"번호":17,"대주제":"수소 에너지 기술","교과별_축약주제":{"국어":"[국어] 수소 에너지 기술 관련 정책 보고서와 언론 기사 비교","수학":"[수학] 수소 연료전지의 에너지 출력 변화를 함수로 모델링","과학":"[과학] 수소 연료전지의 전기화학 반응 원리","사회":"[사회] 수소에너지와 세대 간 환경 책임","역사":"[역사] 수소 에너지와 에너지 전환의 역사"}},{"번호":18,"대주제":"스마트 팩토리 구조","교과별_축약주제":{"국어":"[국어] 스마트 팩토리 도입에 대한 찬반 토론 화법 분석","수학":"[수학] 스마트 팩토리 품질관리 데이터의 통계적 분석","과학":"[과학] 스마트 팩토리의 센서·에너지 시스템 통합 원리","사회":"[사회] 스마트 팩토리와 산업 구조 변화의 경제적 분석","역사":"[역사] 스마트 팩토리와 공장 자동화의 역사"}},{"번호":19,"대주제":"통신 기술(5G)의 원리","교과별_축약주제":{"국어":"[국어] 5G 통신 기술의 원리와 미래를 주제로 한 설명문 작성","수학":"[수학] 5G 통신의 전파 감쇠를 거리에 따른 함수로 모델링","과학":"[과학] 5G 전파의 물리적 특성과 전파 원리","사회":"[사회] 5G 통신과 디지털 격차의 사회문화적 분석","역사":"[역사] 통신 기술(5G)과 정보통신 혁명의 역사"}},{"번호":20,"대주제":"데이터 처리 시스템 구조","교과별_축약주제":{"국어":"[국어] 데이터 처리 시스템 관련 기술 문서의 정보 구조 분석","수학":"[수학] 데이터 처리 시스템의 정렬 알고리즘 효율을 수열·급수로 분석","과학":"[과학] 데이터 저장 장치의 전자기적 원리","사회":"[사회] 데이터센터 입지와 지역사회 영향","역사":"[역사] 데이터 처리와 컴퓨터 발전의 역사"}}]},{"계열명":"상경·경제계열","대주제_수":20,"대주제_목록":[{"번호":1,"대주제":"수요와 공급 모델 분석","교과별_축약주제":{"국어":"[국어] 수요·공급 이론을 설명한 경제학 교양서와 뉴스 기사의 설명 방식 비교","수학":"[수학] 수요·공급 모델을 일차함수의 연립방정식으로 분석","과학":"[과학] 수요·공급 모델에서 자원의 유한성과 에너지 효율","사회":"[사회] 수요·공급 법칙과 시장 균형의 실제 사례 분석","역사":"[역사] 수요·공급 이론의 역사적 형성"}},{"번호":2,"대주제":"플랫폼 경제 구조","교과별_축약주제":{"국어":"[국어] 플랫폼 경제의 구조와 영향을 분석하는 논설문 작성","수학":"[수학] 플랫폼 이용자 수 증가를 로지스틱 함수로 모델링","과학":"[과학] 디지털 플랫폼 운영에 필요한 데이터센터의 에너지 소비","사회":"[사회] 플랫폼 경제의 시장 구조와 독점 규제","역사":"[역사] 플랫폼 경제와 정보혁명의 역사"}},{"번호":3,"대주제":"ESG 경영 효과 분석","교과별_축약주제":{"국어":"[국어] ESG 경영 효과에 대한 기업 홍보 담화와 비판적 논평의 언어 전략 비교 분석","수학":"[수학] ESG 경영 지표와 기업 실적의 상관관계 통계 분석","과학":"[과학] ESG 경영의 환경(E) 지표와 기후과학","사회":"[사회] ESG 경영의 사회적 배경과 기업의 사회적 책임","역사":"[역사] ESG 경영과 기업 책임의 역사"}},{"번호":4,"대주제":"소비자 행동 이론","교과별_축약주제":{"국어":"[국어] 소비자 행동 이론 관련 심리학·경제학 텍스트의 학문 간 관점 차이 비교 독해","수학":"[수학] 소비자 행동 설문조사 데이터의 통계적 분석","과학":"[과학] 소비자 행동에 영향을 미치는 신경과학적 기초","사회":"[사회] 소비자 행동의 사회문화적 요인 분석","역사":"[역사] 소비자 행동과 동아시아 상업 문화의 역사"}},{"번호":5,"대주제":"물가 상승과 인플레이션","교과별_축약주제":{"국어":"[국어] 물가 상승과 인플레이션을 주제로 한 경제 뉴스 앵커의 보도 화법 분석","수학":"[수학] 물가 상승률의 복리 계산","과학":"[과학] 물가 상승의 원인 중 원자재 가격과 화학 산업","사회":"[사회] 인플레이션의 원인과 경제적 영향 분석","역사":"[역사] 인플레이션의 역사적 사례 분석"}},{"번호":6,"대주제":"경제 불평등 원인 분석","교과별_축약주제":{"국어":"[국어] 경제 불평등 원인을 분석하는 사회과학 에세이 작성","수학":"[수학] 소득 불평등 지표(지니계수)의 수학적 의미 분석","과학":"[과학] 경제 불평등과 환경 불평등의 과학적 분석","사회":"[사회] 경제 불평등과 사회 계층 이동의 관계","역사":"[역사] 경제 불평등과 한국 사회 변동의 역사"}},{"번호":7,"대주제":"게임이론 적용 사례","교과별_축약주제":{"국어":"[국어] 게임이론 적용 사례를 다룬 학술 텍스트와 대중서의 난이도 조절 전략 비교 분석","수학":"[수학] 게임이론의 보수행렬을 행렬로 표현","과학":"[과학] 게임이론의 생물학적 적용","사회":"[사회] 게임이론의 경제적 적용 사례 분석","역사":"[역사] 게임이론과 냉전시대 핵전략의 역사"}},{"번호":8,"대주제":"금융시장 구조","교과별_축약주제":{"국어":"[국어] 금융시장 구조를 설명하는 전문가 강연의 화법 분석","수학":"[수학] 복리·단리 이자 계산의 수학적 비교","과학":"[과학] 금융상품 보안을 위한 화학적 위조방지 기술","사회":"[사회] 핀테크와 금융 혁신의 경제적 효과","역사":"[역사] 금융시장의 역사적 형성과 발전"}},{"번호":9,"대주제":"기업 경쟁 전략","교과별_축약주제":{"국어":"[국어] 기업 경쟁 전략 사례를 활용한 분석적 보고서 작성","수학":"[수학] 기업 경쟁 전략의 수학적 모델링","과학":"[과학] 기업 경쟁에서 에너지 효율의 과학적 분석","사회":"[사회] 기업 경쟁과 시장 구조의 경제적 분석","역사":"[역사] 한국 기업 경쟁 전략과 재벌 성장의 역사"}},{"번호":10,"대주제":"글로벌 무역 구조","교과별_축약주제":{"국어":"[국어] 글로벌 무역 구조 관련 국제기구 보고서와 언론 사설의 관점 비교","수학":"[수학] 환율 변동과 무역 수지의 함수 관계 분석","과학":"[과학] 글로벌 무역과 해양·대기 순환의 관계","사회":"[사회] 글로벌 무역과 비교우위론의 실제 적용","역사":"[역사] 글로벌 무역 구조와 대항해시대의 역사"}},{"번호":11,"대주제":"노동시장 변화","교과별_축약주제":{"국어":"[국어] 노동시장 변화를 주제로 한 시사 칼럼 작성","수학":"[수학] 노동시장 실업률 데이터의 시계열 통계 분석","과학":"[과학] 노동환경의 직업병과 과학적 원인 분석","사회":"[사회] 노동윤리와 기업의 사회적 책임","역사":"[역사] 노동시장 변화와 산업혁명의 역사"}},{"번호":12,"대주제":"스타트업 성장 모델","교과별_축약주제":{"국어":"[국어] 스타트업 성장 모델을 주제로 한 투자 피칭 화법 분석","수학":"[수학] 스타트업 성장 곡선의 수학적 분석","과학":"[과학] 스타트업 성장과 기술혁신의 과학적 기반","사회":"[사회] 스타트업 생태계의 경제적 분석","역사":"[역사] 한국 스타트업과 벤처 경제의 역사"}},{"번호":13,"대주제":"데이터 경제 분석","교과별_축약주제":{"국어":"[국어] 데이터 경제 관련 텍스트의 핵심 개념 파악과 요약 전략","수학":"[수학] 데이터 경제에서 빅데이터의 통계적 활용","과학":"[과학] 데이터 경제의 물리적 기반","사회":"[사회] 데이터 경제의 시장 구조와 가치 창출","역사":"[역사] 데이터 경제와 정보 기술 혁명의 역사"}},{"번호":14,"대주제":"광고와 소비 심리","교과별_축약주제":{"국어":"[국어] 광고와 소비 심리를 소재로 한 문학 작품 속 소비 사회 비판 분석","수학":"[수학] 광고 효과와 소비 심리의 통계적 분석","과학":"[과학] 광고가 뇌에 미치는 신경과학적 영향","사회":"[사회] 광고와 대중문화의 사회적 영향","역사":"[역사] 광고와 소비 문화의 역사"}},{"번호":15,"대주제":"주식시장 변동성","교과별_축약주제":{"국어":"[국어] 주식시장 변동성을 다룬 경제 방송의 전문 용어 사용과 일상어 전환 전략 분석","수학":"[수학] 주식시장 변동성의 통계적 분석","과학":"[과학] 주식시장 변동과 물리학의 복잡계 이론","사회":"[사회] 주식시장의 경제적 기능과 자원배분","역사":"[역사] 주식시장 변동과 경제 위기의 역사"}},{"번호":16,"대주제":"디지털 화폐 구조","교과별_축약주제":{"국어":"[국어] 디지털 화폐 관련 기술 백서와 비판적 칼럼의 논증 구조 비교","수학":"[수학] 디지털 화폐의 암호화 원리에 사용된 수학","과학":"[과학] 블록체인의 암호화에 활용되는 물리적 원리","사회":"[사회] 블록체인과 디지털 자산의 법적 규제","역사":"[역사] 화폐 제도 변천과 동아시아 경제의 역사"}},{"번호":17,"대주제":"기업 재무 분석","교과별_축약주제":{"국어":"[국어] 기업 재무 분석 결과를 보고서로 작성하는 방법","수학":"[수학] 재무제표 비율 분석의 수학적 구조","과학":"[과학] 재무제표 분석에 활용되는 화학 산업 이해","사회":"[사회] 재무제표 분석과 기업 가치 평가의 경제적 의미","역사":"[역사] 한국 기업 재무 구조와 경제 발전의 역사"}},{"번호":18,"대주제":"경제 정책 효과","교과별_축약주제":{"국어":"[국어] 경제 정책 효과를 분석한 정부 보고서와 학술 논문의 서술 방식 비교","수학":"[수학] 경제 정책 효과의 수학적 모델링","과학":"[과학] 경제 정책의 환경 영향 과학적 분석","사회":"[사회] 경제 정책(통화·재정)의 효과 분석","역사":"[역사] 한국 경제 정책의 역사적 변천"}},{"번호":19,"대주제":"플랫폼 독점 문제","교과별_축약주제":{"국어":"[국어] 플랫폼 독점 문제에 대한 논증적 글쓰기","수학":"[수학] 플랫폼 독점 구조를 게임이론 행렬로 분석","과학":"[과학] 플랫폼 독점과 전력 소비의 환경 문제","사회":"[사회] 플랫폼 독점과 공정거래의 경제적 분석","역사":"[역사] 독점 규제와 반독점법의 역사"}},{"번호":20,"대주제":"경제 위기 사례 분석","교과별_축약주제":{"국어":"[국어] 경제 위기 사례를 다룬 역사·경제 텍스트의 시간 순서에 따른 서사적 전개와 인과 분석 구조 비교 탐구","수학":"[수학] 경제 위기 발생 패턴의 통계적 분석","과학":"[과학] 경제 위기와 자연재해의 상호 영향","사회":"[사회] 경제 위기의 발생 메커니즘과 정책적 대응","역사":"[역사] 세계 경제 위기의 역사적 분석"}}]},{"계열명":"법학계열","대주제_수":20,"대주제_목록":[{"번호":1,"대주제":"개인정보 보호 법적 기준","교과별_축약주제":{"국어":"[국어] 개인정보 보호법 해설서와 관련 판례문의 법률 텍스트 독해","수학":"[수학] 개인정보 유출 사건 빈도의 통계적 분석","과학":"[과학] 개인정보 보호와 데이터 암호화의 과학적 원리","사회":"[사회] 개인정보 보호법의 체계와 권리 구제","역사":"[역사] 개인정보 보호와 감시 체제의 역사"}},{"번호":2,"대주제":"AI 책임 문제","교과별_축약주제":{"국어":"[국어] AI 책임 문제를 주제로 한 법률 토론 화법 분석","수학":"[수학] AI 판단 오류율의 통계적 분석","과학":"[과학] AI 판단의 과학적 기초와 오류","사회":"[사회] AI 판단의 법적 책임과 입법 과제","역사":"[역사] AI 책임 문제와 기술 규제의 역사"}},{"번호":3,"대주제":"저작권과 디지털 콘텐츠","교과별_축약주제":{"국어":"[국어] 저작권과 디지털 콘텐츠 관련 쟁점을 다룬 논술문 작성","수학":"[수학] 디지털 콘텐츠 불법 복제 규모의 통계적 추정","과학":"[과학] 디지털 콘텐츠 복제와 데이터 저장의 물리적 원리","사회":"[사회] 저작권법의 디지털 환경 적용 쟁점","역사":"[역사] 저작권 제도의 역사적 형성"}},{"번호":4,"대주제":"형법의 책임 원리","교과별_축약주제":{"국어":"[국어] 형법의 책임 원리를 설명한 법학 개론서와 판례 해설의 서술 방식 비교","수학":"[수학] 형법의 책임 판단에서 논리 구조를 명제·조건문으로 분석","과학":"[과학] 형사책임 판단에서 신경과학적 증거 활용","사회":"[사회] 형사책임의 헌법적 근거와 책임주의 원칙","역사":"[역사] 형법의 역사적 발전"}},{"번호":5,"대주제":"헌법과 기본권","교과별_축약주제":{"국어":"[국어] 헌법과 기본권을 주제로 한 헌법재판소 판결문의 언어 분석","수학":"[수학] 헌법상 기본권 제한의 논리적 구조를 집합·명제로 분석","과학":"[과학] 기본권으로서 건강권과 감염병 과학","사회":"[사회] 기본권 제한의 헌법적 한계","역사":"[역사] 헌법과 기본권 보장의 역사"}},{"번호":6,"대주제":"판례 분석 방법","교과별_축약주제":{"국어":"[국어] 판례 분석 방법을 활용한 법학 보고서 작성","수학":"[수학] 판례 분석에서의 통계적 근거 활용","과학":"[과학] 법의학에서 DNA 증거 분석 원리","사회":"[사회] 법의학적 증거의 법적 증거능력 판단","역사":"[역사] 판례 분석과 한국 사법 제도의 역사"}},{"번호":7,"대주제":"사이버 범죄","교과별_축약주제":{"국어":"[국어] 사이버 범죄 관련 뉴스 보도와 법률 해설 텍스트의 정보 전달 방식 비교","수학":"[수학] 사이버 범죄 발생 추이의 통계적 분석","과학":"[과학] 사이버 범죄의 과학기술적 기반 분석","사회":"[사회] 사이버 범죄의 법적 규제 체계","역사":"[역사] 사이버 범죄와 정보전의 역사"}},{"번호":8,"대주제":"청소년 범죄","교과별_축약주제":{"국어":"[국어] 청소년 범죄를 소재로 한 문학 작품 속 인물의 내면 갈등과 사회적 책임 서사 분석","수학":"[수학] 청소년 범죄 데이터의 통계적 분석","과학":"[과학] 청소년 뇌 발달과 법적 책임능력의 과학적 근거","사회":"[사회] 소년법의 목적과 형사정책적 쟁점","역사":"[역사] 청소년 범죄와 한국 소년법의 역사"}},{"번호":9,"대주제":"국제법과 국가 관계","교과별_축약주제":{"국어":"[국어] 국제법과 국가 관계를 주제로 한 외교 담화문의 화법 분석","수학":"[수학] 국제법상 국가 간 조약 관계를 그래프 이론과 행렬로 분석","과학":"[과학] 국제법상 영토 분쟁과 지질학적 근거","사회":"[사회] 배타적경제수역(EEZ)과 해양경계 획정의 지리적 분석","역사":"[역사] 국제법의 역사적 형성"}},{"번호":10,"대주제":"환경법","교과별_축약주제":{"국어":"[국어] 환경법의 필요성을 주장하는 설득적 글쓰기","수학":"[수학] 환경오염 데이터의 통계적 분석","과학":"[과학] 환경오염 물질의 화학적 분석과 환경법 기준","사회":"[사회] 환경오염과 기업의 환경적 책임","역사":"[역사] 환경법과 환경운동의 역사"}},{"번호":11,"대주제":"의료법","교과별_축약주제":{"국어":"[국어] 의료법 관련 텍스트에서 의료인의 권리와 환자의 권리가 충돌하는 사례의 논쟁적 독해와 다관점 분석 탐구","수학":"[수학] 의료 소송 데이터의 통계적 분석","과학":"[과학] 의료사고 판단에서 생명과학적 근거","사회":"[사회] 의료사고의 민사·형사 법적 책임 구분","역사":"[역사] 의료법과 한국 근대 의료의 역사"}},{"번호":12,"대주제":"노동법","교과별_축약주제":{"국어":"[국어] 노동법 관련 노사 간 협상 담화 분석","수학":"[수학] 노동 분쟁 데이터의 통계적 분석","과학":"[과학] 노동환경 안전기준의 과학적 근거","사회":"[사회] 노동자 안전권과 기업윤리의 관계","역사":"[역사] 노동법과 노동운동의 역사"}},{"번호":13,"대주제":"기업 법률 문제","교과별_축약주제":{"국어":"[국어] 기업 법률 문제를 주제로 한 법률 의견서 작성","수학":"[수학] 기업 법률 문제에서 손해배상액 산정의 수학적 구조","과학":"[과학] 제조물 책임에서 화학물질 안전성 분석","사회":"[사회] 제조물 책임법의 법적 구조와 소비자 보호","역사":"[역사] 기업 법률과 동아시아 상업 제도의 역사"}},{"번호":14,"대주제":"공정거래법","교과별_축약주제":{"국어":"[국어] 공정거래법 관련 규제 기관 보고서와 기업 측 반론문의 논증 구조 비교","수학":"[수학] 공정거래 위반 사례의 시장점유율 통계 분석","과학":"[과학] 독점 판단에서 기술 특허의 과학적 분석","사회":"[사회] 특허법의 법적 체계와 지식재산 보호","역사":"[역사] 공정거래법과 독점 규제의 역사"}},{"번호":15,"대주제":"표현의 자유","교과별_축약주제":{"국어":"[국어] 표현의 자유와 규제 사이의 균형을 다룬 논증적 에세이 작성","수학":"[수학] 표현의 자유와 제한의 논리적 관계를 명제와 집합으로 분석","과학":"[과학] 표현의 자유와 전파 규제의 물리적 근거","사회":"[사회] 표현의 자유와 통신규제의 헌법적 균형","역사":"[역사] 표현의 자유와 검열 제도의 역사"}},{"번호":16,"대주제":"인권 문제","교과별_축약주제":{"국어":"[국어] 인권 문제를 다룬 르포 문학 작품 분석","수학":"[수학] 인권 침해 사건의 국가별·유형별 통계 분석","과학":"[과학] 인권 침해 증거로서의 과학적 분석 방법","사회":"[사회] 인권 침해의 윤리적 분석과 회복적 정의","역사":"[역사] 인권 보장의 역사적 흐름"}},{"번호":17,"대주제":"법과 윤리","교과별_축약주제":{"국어":"[국어] 법과 윤리의 관계를 다룬 철학·법학 텍스트 비교 독해","수학":"[수학] 법과 윤리의 관계를 집합 개념으로 분석","과학":"[과학] 생명윤리법과 생명과학 연구의 과학적 기초","사회":"[사회] 생명윤리법과 생명존중 원칙","역사":"[역사] 법과 윤리의 관계"}},{"번호":18,"대주제":"형벌 이론","교과별_축약주제":{"국어":"[국어] 형벌 이론(응보·교화)에 대한 찬반 토론 화법","수학":"[수학] 형벌의 범죄 억제 효과를 통계적으로 분석","과학":"[과학] 형벌의 행동 교정 효과에 대한 신경과학적 분석","사회":"[사회] 형벌의 목적과 형사정책적 쟁점","역사":"[역사] 형벌 제도와 한국 형사정책의 역사"}},{"번호":19,"대주제":"법적 해석 방법","교과별_축약주제":{"국어":"[국어] 법적 해석 방법(문리·목적·체계 해석)을 설명한 텍스트의 분류·비교 서술 구조 분석과 요약 전략 탐구","수학":"[수학] 법적 해석 방법의 논리적 구조를 명제 논리로 분석","과학":"[과학] 법적 해석에서 과학적 증거의 활용","사회":"[사회] 법적 해석 방법론과 판례의 역할","역사":"[역사] 법적 해석과 한국 헌법사"}},{"번호":20,"대주제":"법 제도의 변화","교과별_축약주제":{"국어":"[국어] 법 제도 변화의 역사적 흐름을 정리하는 글쓰기","수학":"[수학] 법 제도 변화와 사회 지표의 상관관계 통계 분석","과학":"[과학] 법 제도 변화와 과학기술 발전의 상호작용","사회":"[사회] 과학기술 발전에 따른 입법 과제","역사":"[역사] 법 제도 변화와 시민혁명의 역사"}}]},{"계열명":"자연과학","대주제_수":20,"대주제_목록":[{"번호":1,"대주제":"양자역학 기초 원리","교과별_축약주제":{"국어":"[국어] 양자역학 대중 과학서와 학술 논문의 설명 방식 비교","수학":"[수학] 양자역학 확률 해석의 수학적 기초","과학":"[과학] 양자역학의 파동-입자 이중성 실험 분석","사회":"[사회] 양자역학의 관측 문제와 과학철학적 쟁점","역사":"[역사] 양자역학과 과학 혁명의 역사"}},{"번호":2,"대주제":"기후 변화 원인 분석","교과별_축약주제":{"국어":"[국어] 기후 변화 원인을 분석하는 과학 에세이 작성","수학":"[수학] 기후 변화 데이터의 통계적 분석","과학":"[과학] 기후변화의 복사강제력 분석","사회":"[사회] 기후변화의 지리적 영향과 지역별 대응","역사":"[역사] 기후 변화 논의와 환경운동의 역사"}},{"번호":3,"대주제":"우주 팽창 이론","교과별_축약주제":{"국어":"[국어] 우주 팽창 이론을 다룬 과학 교양서의 서사적 전개 분석","수학":"[수학] 우주 팽창 속도를 허블 법칙의 일차함수로 모델링","과학":"[과학] 허블 법칙과 우주 팽창의 관측 증거 분석","사회":"[사회] 우주개발의 사회문화적 의미와 국제협력","역사":"[역사] 우주 탐사와 냉전의 역사"}},{"번호":4,"대주제":"화학 반응 속도","교과별_축약주제":{"국어":"[국어] 화학 반응 속도를 주제로 한 실험 발표 화법 분석","수학":"[수학] 화학 반응 속도를 미분 개념으로 분석","과학":"[과학] 화학 반응 속도에 영향을 미치는 요인 실험","사회":"[사회] 화학 산업의 경제적 구조와 환경 비용","역사":"[역사] 화학과 동아시아 연금술의 역사"}},{"번호":5,"대주제":"촉매 작용","교과별_축약주제":{"국어":"[국어] 촉매 작용의 원리와 활용을 설명하는 과학 칼럼 작성","수학":"[수학] 촉매 반응의 활성화 에너지를 아레니우스 방정식으로 분석","과학":"[과학] 촉매의 활성화 에너지 감소 원리 분석","사회":"[사회] 촉매 기술의 환경윤리적 의미","역사":"[역사] 촉매 작용과 화학 산업의 역사"}},{"번호":6,"대주제":"물질 상태 변화","교과별_축약주제":{"국어":"[국어] 물질 상태 변화를 비전문가에게 설명하는 과학 커뮤니케이션 화법","수학":"[수학] 물질 상태 변화의 상평형 그림을 함수 그래프로 분석","과학":"[과학] 상태 변화의 분자 운동론적 해석","사회":"[사회] 물의 상태 변화와 기후·지형의 지리적 관계","역사":"[역사] 물질 상태 변화와 증기기관의 역사"}},{"번호":7,"대주제":"전자기파 특성","교과별_축약주제":{"국어":"[국어] 전자기파 관련 과학 텍스트의 정의·분류·비교 설명 구조 분석","수학":"[수학] 전자기파 특성을 삼각함수로 분석","과학":"[과학] 전자기파 스펙트럼의 파장·에너지 관계 분석","사회":"[사회] 전자기파 기술의 산업적 활용과 경제적 효과","역사":"[역사] 전자기파 발견과 통신 혁명의 역사"}},{"번호":8,"대주제":"광합성 과정","교과별_축약주제":{"국어":"[국어] 광합성 과정을 소재로 한 과학시(科學詩) 작품 분석","수학":"[수학] 광합성 속도를 빛의 세기 함수로 모델링","과학":"[과학] 광합성의 명반응·암반응 메커니즘 분석","사회":"[사회] 광합성 연구와 식량윤리의 관계","역사":"[역사] 광합성과 동아시아 농업 혁명의 역사"}},{"번호":9,"대주제":"대기 오염 원인","교과별_축약주제":{"국어":"[국어] 대기 오염 원인과 해결 방안을 다룬 논설문 작성","수학":"[수학] 대기 오염 물질 농도 데이터의 통계적 분석","과학":"[과학] 대기오염 물질의 발생·이동·제거 과정 분석","사회":"[사회] 대기오염의 지리적 확산과 지역 간 불평등","역사":"[역사] 대기 오염과 산업화의 역사"}},{"번호":10,"대주제":"지구 내부 구조","교과별_축약주제":{"국어":"[국어] 지구 내부 구조를 설명한 과학 텍스트의 공간적 서술 구조 분석","수학":"[수학] 지구 내부 구조를 구의 부피·겉넓이로 분석","과학":"[과학] 지구 내부 구조 탐사와 지진파 분석","사회":"[사회] 지구 내부 구조와 자연재해의 지리적 분포","역사":"[역사] 지구 내부 구조와 한반도 지질의 역사"}},{"번호":11,"대주제":"에너지 변환","교과별_축약주제":{"국어":"[국어] 에너지 변환 원리를 일상 언어로 풀어 설명하는 화법 전략","수학":"[수학] 에너지 변환 과정의 효율을 적분으로 분석","과학":"[과학] 에너지 변환 과정에서의 보존법칙 검증","사회":"[사회] 에너지 보존과 에너지 경제학","역사":"[역사] 에너지 변환과 산업혁명의 역사"}},{"번호":12,"대주제":"화학 결합 구조","교과별_축약주제":{"국어":"[국어] 화학 결합 구조 관련 교과서와 과학 잡지의 설명 방식 차이 비교","수학":"[수학] 화학 결합의 분자 구조를 공간좌표와 벡터로 분석","과학":"[과학] 공유결합·이온결합·금속결합의 구조와 물성 비교","사회":"[사회] 신소재 산업의 경제적 가치와 시장 구조","역사":"[역사] 화학 결합과 동아시아 재료 기술의 역사"}},{"번호":13,"대주제":"파동과 진동","교과별_축약주제":{"국어":"[국어] 파동과 진동의 원리를 일상 현상과 연결하여 설명하는 과학 수필 작성","수학":"[수학] 파동의 중첩 원리를 삼각함수의 합성으로 분석","과학":"[과학] 파동의 간섭·회절·공명 현상 실험 분석","사회":"[사회] 파동 기술의 사회적 활용과 영향","역사":"[역사] 파동 연구와 음향학의 역사"}},{"번호":14,"대주제":"물리 법칙","교과별_축약주제":{"국어":"[국어] 물리 법칙을 다룬 과학사 텍스트의 서사적 구조 분석","수학":"[수학] 물리 법칙(운동법칙)의 수학적 표현","과학":"[과학] 뉴턴 운동법칙의 실험적 검증","사회":"[사회] 뉴턴 역학과 결정론적 세계관의 윤리적 함의","역사":"[역사] 뉴턴 역학과 과학 혁명의 역사"}},{"번호":15,"대주제":"생태계 균형","교과별_축약주제":{"국어":"[국어] 생태계 균형을 소재로 한 생태 문학 작품 분석","수학":"[수학] 생태계 개체수 변화의 통계적 분석","과학":"[과학] 생태계 에너지 흐름과 물질 순환 분석","사회":"[사회] 생태계 보전의 환경윤리적 분석","역사":"[역사] 생태계 보전과 환경운동의 역사"}},{"번호":16,"대주제":"진화 이론","교과별_축약주제":{"국어":"[국어] 진화 이론을 둘러싼 과학·종교 논쟁의 토론 화법 분석","수학":"[수학] 진화론에서 유전자 빈도 변화의 확률적 분석","과학":"[과학] 자연선택에 의한 진화의 증거 분석","사회":"[사회] 진화론의 사회적 수용과 과학·종교 갈등","역사":"[역사] 다윈의 진화론과 과학·종교 논쟁의 역사"}},{"번호":17,"대주제":"유전 법칙","교과별_축약주제":{"국어":"[국어] 유전 법칙을 설명한 과학 텍스트에서 귀납적 추론과 연역적 설명의 복합적 서술 구조 분석","수학":"[수학] 멘델 유전 법칙의 확률 분석","과학":"[과학] 멘델의 유전 법칙과 분리·독립의 법칙 검증","사회":"[사회] 유전학 기술의 농업 경제적 효과","역사":"[역사] 유전 법칙과 동아시아 농업 품종 개량의 역사"}},{"번호":18,"대주제":"화학 평형","교과별_축약주제":{"국어":"[국어] 화학 평형 원리를 주제로 한 탐구 보고서 작성","수학":"[수학] 화학 평형 상수와 농도 변화를 함수로 모델링","과학":"[과학] 화학 평형의 르샤틀리에 원리 적용","사회":"[사회] 화학 평형 원리의 산업적 적용과 경제성","역사":"[역사] 화학 평형과 근대 화학의 역사"}},{"번호":19,"대주제":"열전달","교과별_축약주제":{"국어":"[국어] 열전달 현상을 실생활 사례로 설명하는 수업 화법 분석","수학":"[수학] 열전달 과정을 뉴턴 냉각법칙의 지수함수로 모델링","과학":"[과학] 열전달 방식(전도·대류·복사) 비교 실험","사회":"[사회] 열전달과 기후 시스템의 지리적 분석","역사":"[역사] 열전달과 산업혁명의 역사"}},{"번호":20,"대주제":"물의 특성","교과별_축약주제":{"국어":"[국어] 물의 특성을 주제로 한 과학 에세이 작성","수학":"[수학] 물의 특성(밀도 변화)을 온도 함수로 분석","과학":"[과학] 물의 특이한 물성(높은 비열·수소결합)의 화학적 원리","사회":"[사회] 물 부족과 수자원 분배의 환경정의","역사":"[역사] 물의 특성과 한국 수리 기술의 역사"}}]},{"계열명":"인문·문학","대주제_수":20,"대주제_목록":[{"번호":1,"대주제":"문학 비평 방법론","교과별_축약주제":{"국어":"[국어] 다양한 문학 비평 방법론(구조주의·페미니즘·탈식민) 적용 비교 독해","수학":"[수학] 문학 비평 방법론별 독자 선호도 설문 데이터 분석","과학":"[과학] 문학 비평에서 인지과학적 접근","사회":"[사회] 문학 비평 방법론과 대중문화의 관계","역사":"[역사] 문학 비평 방법론의 역사적 발전"}},{"번호":2,"대주제":"작품 속 인간 본성","교과별_축약주제":{"국어":"[국어] 문학 작품 속 인간 본성 탐구","수학":"[수학] 문학 작품 속 인물 유형 분류의 통계적 분석","과학":"[과학] 문학 속 인간 본성의 진화생물학적 해석","사회":"[사회] 문학 속 인물 유형과 사회 계층 반영","역사":"[역사] 작품 속 인간 본성과 동아시아 고전문학"}},{"번호":3,"대주제":"서사 구조 분석","교과별_축약주제":{"국어":"[국어] 서사 구조(발단·위기·절정·결말) 분석 텍스트 독해","수학":"[수학] 서사 구조(발단·위기·절정·결말)를 수열 패턴으로 분석","과학":"[과학] 서사 구조와 뇌의 이야기 이해 방식","사회":"[사회] 서사 구조와 사회적 갈등 반영","역사":"[역사] 서사 구조와 서양 문학의 역사"}},{"번호":4,"대주제":"상징과 의미","교과별_축약주제":{"국어":"[국어] 시 작품에서의 상징과 의미 해석","수학":"[수학] 시 작품에서 상징어 빈도의 통계 분석","과학":"[과학] 상징이 뇌의 감정·기억 영역에 미치는 영향","사회":"[사회] 시 작품의 상징과 시대적 사회 배경","역사":"[역사] 상징과 의미"}},{"번호":5,"대주제":"시대 반영","교과별_축약주제":{"국어":"[국어] 시대 반영이 드러난 문학 작품의 사회·역사적 맥락 분석","수학":"[수학] 문학 작품의 시대 반영도를 사회 지표와의 상관관계로 분석","과학":"[과학] 시대적 배경에 영향을 미친 자연환경 변화 분석","사회":"[사회] 문학이 사회 변화에 미친 영향 분석","역사":"[역사] 시대 반영과 한국 문학의 역사"}},{"번호":6,"대주제":"작가 의도","교과별_축약주제":{"국어":"[국어] 작가 의도와 독자 해석의 관계를 다룬 문학 비평문 작성","수학":"[수학] 작가 의도와 독자 해석 간 차이의 통계 분석","과학":"[과학] 작가 의도와 독자 해석 차이의 신경과학적 기초","사회":"[사회] 작가 의도와 독자 해석의 사회적 맥락","역사":"[역사] 작가 의도와 동아시아 문학 교류"}},{"번호":7,"대주제":"문학과 사회","교과별_축약주제":{"국어":"[국어] 문학과 사회의 관계를 다룬 문학 사회학 텍스트 독해","수학":"[수학] 문학이 사회에 미치는 영향의 통계적 분석","과학":"[과학] 문학이 사회에 미치는 영향의 과학적 분석","사회":"[사회] 베스트셀러의 사회적 영향력 분석","역사":"[역사] 문학과 사회 변혁의 역사"}},{"번호":8,"대주제":"철학과 문학","교과별_축약주제":{"국어":"[국어] 철학과 문학의 접점을 다룬 텍스트(실존주의 소설 등) 독해","수학":"[수학] 철학·문학 접점의 독자 선호도 조사 분석","과학":"[과학] 철학적 사고의 뇌 기능적 기초","사회":"[사회] 철학·문학의 윤리적 주제 탐구","역사":"[역사] 철학과 문학의 역사적 접점"}},{"번호":9,"대주제":"언어 표현","교과별_축약주제":{"국어":"[국어] 문학 작품의 언어 표현 분석","수학":"[수학] 문학 작품의 언어 표현 분석","과학":"[과학] 언어 표현의 뇌 언어영역 분석","사회":"[사회] 문학의 언어와 사회적 정체성","역사":"[역사] 언어 표현과 한글 창제의 역사"}},{"번호":10,"대주제":"감정 구조","교과별_축약주제":{"국어":"[국어] 문학 작품 속 감정 구조 분석","수학":"[수학] 문학 작품 속 감정 변화를 함수 그래프로 시각화","과학":"[과학] 문학 속 감정 변화와 자율신경계 반응","사회":"[사회] 문학 속 감정 표현과 사회적 가치관","역사":"[역사] 감정 구조와 낭만주의 문학의 역사"}},{"번호":11,"대주제":"인물 분석","교과별_축약주제":{"국어":"[국어] 문학 작품의 인물 분석 보고서 작성","수학":"[수학] 문학 작품 인물의 특성을 분류·통계 분석","과학":"[과학] 등장인물의 성격 유형과 유전·환경 요인","사회":"[사회] 문학 속 인물 유형과 사회적 역할","역사":"[역사] 인물 분석과 동아시아 역사 인물 서사"}},{"번호":12,"대주제":"비판적 읽기","교과별_축약주제":{"국어":"[국어] 비판적 읽기의 실제 적용","수학":"[수학] 비판적 읽기의 논리 구조를 명제·집합으로 분석","과학":"[과학] 비판적 읽기와 과학적 사고의 공통점","사회":"[사회] 비판적 읽기와 윤리적 판단력","역사":"[역사] 비판적 읽기와 계몽주의의 역사"}},{"번호":13,"대주제":"장르 비교","교과별_축약주제":{"국어":"[국어] 장르(시·소설·희곡·수필) 비교를 통한 문학적 특성 파악","수학":"[수학] 장르별 독자 선호도 설문 데이터 비교 분석","과학":"[과학] 장르별 독자 반응의 신경생리학적 분석","사회":"[사회] 장르별 독자 선호도와 사회적 배경","역사":"[역사] 장르 변화와 세계 문학사"}},{"번호":14,"대주제":"서술 방식","교과별_축약주제":{"국어":"[국어] 서술 방식(1인칭·전지적·액자 서술)에 따른 작품 해석의 변화 분석","수학":"[수학] 서술 방식(1인칭·3인칭·전지)별 독자 반응 차이를 수치화","과학":"[과학] 서술 방식이 독자 감정에 미치는 신경과학적 영향","사회":"[사회] 서술 방식과 사회적 시선의 관계","역사":"[역사] 서술 방식과 동아시아 역사 서술 전통"}},{"번호":15,"대주제":"문학과 윤리","교과별_축약주제":{"국어":"[국어] 문학과 윤리의 관계를 다룬 작품 분석","수학":"[수학] 문학과 윤리의 관계를 집합 개념으로 분석","과학":"[과학] 문학과 윤리의 도덕적 판단에 대한 신경과학적 분석","사회":"[사회] 문학과 윤리의 관계 탐구","역사":"[역사] 문학과 윤리의 역사적 관계"}},{"번호":16,"대주제":"현실 반영","교과별_축약주제":{"국어":"[국어] 문학을 통한 현실 반영 방식을 분석하는 문학 비평문 작성","수학":"[수학] 문학의 현실 반영도를 사회 사건과 작품 발표 시기의 상관관계로 분석","과학":"[과학] 문학의 현실 반영과 환경과학적 접근","사회":"[사회] 문학의 현실 반영도와 사회 변동","역사":"[역사] 현실 반영과 한국 근현대사"}},{"번호":17,"대주제":"문화 비교","교과별_축약주제":{"국어":"[국어] 한국 문학과 외국 문학 작품의 문화적 배경 비교 독해","수학":"[수학] 한국·외국 문학의 문화적 특성 비교를 데이터로 분석","과학":"[과학] 한국·외국 문학 속 자연관의 과학적 배경 비교","사회":"[사회] 한국·외국 문학의 문화적 차이 비교","역사":"[역사] 문화 비교와 동아시아 문학 교류사"}},{"번호":18,"대주제":"독서 경험 분석","교과별_축약주제":{"국어":"[국어] 독서 경험을 바탕으로 한 성찰적 에세이 작성","수학":"[수학] 독서 경험과 학업 성취도의 상관관계 통계 분석","과학":"[과학] 독서가 뇌에 미치는 생물학적 효과","사회":"[사회] 독서 경험과 사회적 자본의 관계","역사":"[역사] 독서 경험과 한국 출판·교육의 역사"}},{"번호":19,"대주제":"작품 해석","교과별_축약주제":{"국어":"[국어] 작품 해석의 다양성 탐구","수학":"[수학] 동일 작품에 대한 다양한 해석의 비율 분석","과학":"[과학] 작품 해석의 개인차 뇌과학적 기초","사회":"[사회] 다양한 해석과 다문화주의의 관계","역사":"[역사] 작품 해석과 문학 이론의 역사"}},{"번호":20,"대주제":"문학적 가치","교과별_축약주제":{"국어":"[국어] 문학적 가치란 무엇인가","수학":"[수학] 문학적 가치 평가 기준의 시대별 변화 통계 분석","과학":"[과학] 문학적 가치 평가와 과학적 방법론의 연결","사회":"[사회] 문학적 가치 평가의 사회적 배경","역사":"[역사] 문학적 가치와 노벨문학상의 역사"}}]},{"계열명":"정치·행정·외교","대주제_수":20,"대주제_목록":[{"번호":1,"대주제":"정책 효과 분석","교과별_축약주제":{"국어":"[국어] 정책 효과 분석 보고서와 언론 칼럼의 서술 방식 비교","수학":"[수학] 정책 효과를 정책 시행 전후 데이터 비교로 분석","과학":"[과학] 정책 효과 분석에 활용되는 과학적 근거","사회":"[사회] 정책 효과 평가의 법적·제도적 근거","역사":"[역사] 정책 효과 분석과 한국 근현대 정책사"}},{"번호":2,"대주제":"정부 구조","교과별_축약주제":{"국어":"[국어] 정부 구조를 설명하는 공식 발표 화법 분석","수학":"[수학] 정부 구조의 권력 관계를 그래프 이론과 행렬로 분석","과학":"[과학] 정부 에너지 정책의 과학적 기반","사회":"[사회] 권력분립과 헌법적 근거","역사":"[역사] 정부 구조와 권력분립의 역사"}},{"번호":3,"대주제":"민주주의 원리","교과별_축약주제":{"국어":"[국어] 민주주의 원리와 실현 방안을 다룬 논설문 작성","수학":"[수학] 민주주의 만족도와 사회 지표의 상관관계 통계 분석","과학":"[과학] 민주주의와 집단 의사결정의 생물학적 기초","사회":"[사회] 민주주의의 헌법적 원칙과 참여","역사":"[역사] 민주주의 발전과 한국 민주화 운동의 역사"}},{"번호":4,"대주제":"국제 관계","교과별_축약주제":{"국어":"[국어] 국제 관계 관련 다양한 입장의 텍스트(세계주의·현실주의) 비교 독해","수학":"[수학] 국제 관계를 게임이론 행렬로 모델링","과학":"[과학] 국제 관계에서 자원 분쟁의 과학적 배경","사회":"[사회] 국제법의 체계와 조약의 법적 효력","역사":"[역사] 국제 관계와 근대 외교의 역사"}},{"번호":5,"대주제":"외교 전략","교과별_축약주제":{"국어":"[국어] 외교 전략과 외교적 담화문 분석","수학":"[수학] 외교 전략의 최적 선택을 게임이론으로 분석","과학":"[과학] 외교 협상에서의 행동생물학적 분석","사회":"[사회] 외교 전략과 국제법상 주권 원칙","역사":"[역사] 외교 전략과 동아시아 조공 체제의 역사"}},{"번호":6,"대주제":"공공 정책","교과별_축약주제":{"국어":"[국어] 공공 정책의 필요성을 주장하는 정책 제안서 작성","수학":"[수학] 공공 정책 만족도 설문 데이터의 통계 분석","과학":"[과학] 공공 보건 정책의 과학적 근거","사회":"[사회] 공공 정책에 대한 시민 참여와 사회적 신뢰","역사":"[역사] 공공 정책과 복지국가의 역사"}},{"번호":7,"대주제":"행정 효율성","교과별_축약주제":{"국어":"[국어] 행정 효율성 관련 정부 보고서와 시민단체 평가보고서의 서술 관점 및 논증 구조 비교 분석","수학":"[수학] 행정 효율성 지표의 다변량 통계 분석","과학":"[과학] 행정 효율성과 에너지 소비의 과학적 분석","사회":"[사회] 행정 효율성과 예산 배분의 경제적 분석","역사":"[역사] 행정 효율성과 한국 행정 개혁의 역사"}},{"번호":8,"대주제":"정치 참여","교과별_축약주제":{"국어":"[국어] 정치 참여의 중요성을 다룬 설득적 에세이 작성","수학":"[수학] 정치 참여율 데이터의 통계적 분석","과학":"[과학] 정치 참여와 행동의 신경과학적 기초","사회":"[사회] 정치 참여율과 사회적 배경의 관계","역사":"[역사] 정치 참여와 한국 시민운동의 역사"}},{"번호":9,"대주제":"선거 제도","교과별_축약주제":{"국어":"[국어] 선거 제도 관련 후보자 토론 화법 분석","수학":"[수학] 선거 제도의 비례대표성을 수학적으로 분석","과학":"[과학] 선거 제도의 전자투표 시스템과 과학기술","사회":"[사회] 선거 제도의 법적 구조와 대표성","역사":"[역사] 선거 제도의 역사적 발전"}},{"번호":10,"대주제":"국제 분쟁","교과별_축약주제":{"국어":"[국어] 국제 분쟁 관련 뉴스 보도와 학술 텍스트의 정보 전달 방식 비교","수학":"[수학] 국제 분쟁 발생 패턴의 통계적 분석","과학":"[과학] 국제 분쟁 지역의 지질학적 특성","사회":"[사회] 국제 분쟁의 지정학적 분석","역사":"[역사] 국제 분쟁과 전쟁의 역사"}},{"번호":11,"대주제":"국제기구 역할","교과별_축약주제":{"국어":"[국어] 국제기구 역할을 다룬 공식 보고서와 비판적 분석문의 논증 구조 비교","수학":"[수학] 국제기구 예산 배분의 수학적 분석","과학":"[과학] 국제기구의 과학기술 협력 사례","사회":"[사회] 국제기구 예산 분담과 공공재 공급의 경제학","역사":"[역사] 국제기구의 역사적 형성"}},{"번호":12,"대주제":"정치 이념","교과별_축약주제":{"국어":"[국어] 정치 이념을 주제로 한 찬반 토론 화법 분석","수학":"[수학] 정치 이념 성향 설문의 통계적 분석","과학":"[과학] 정치 이념 성향의 생물학적 기초","사회":"[사회] 정치 이념과 사회화 과정의 관계","역사":"[역사] 정치 이념과 이데올로기의 역사"}},{"번호":13,"대주제":"국가 권력 구조","교과별_축약주제":{"국어":"[국어] 국가 권력 구조를 설명하는 해설문 작성","수학":"[수학] 국가 권력 구조의 견제 관계를 행렬과 그래프로 모델링","과학":"[과학] 권력 구조와 에너지 정책의 과학적 관계","사회":"[사회] 권력분립의 견제 기능과 헌법재판소","역사":"[역사] 국가 권력 구조와 한국 헌정사"}},{"번호":14,"대주제":"정책 평가","교과별_축약주제":{"국어":"[국어] 정책 평가 보고서의 데이터 해석 방식과 논리적 서술 구조 분석","수학":"[수학] 정책 평가를 위한 비용-편익 분석의 수학적 구조","과학":"[과학] 정책 평가에서 과학적 근거 활용","사회":"[사회] 정책 비용-편익 분석의 경제학적 원리","역사":"[역사] 정책 평가와 국제개발협력의 역사"}},{"번호":15,"대주제":"복지 정책","교과별_축약주제":{"국어":"[국어] 복지 정책의 확대를 주장하는 논증적 글쓰기","수학":"[수학] 복지 정책 수혜자 데이터의 분포 분석","과학":"[과학] 기후변화 대응 정책의 과학적 근거","사회":"[사회] 복지 정책과 소득재분배의 경제적 효과","역사":"[역사] 복지 정책과 복지국가의 역사"}},{"번호":16,"대주제":"환경 정책","교과별_축약주제":{"국어":"[국어] 환경 정책의 국제적 협력 필요성을 다룬 논설문 작성","수학":"[수학] 환경 정책 효과의 통계적 검증","과학":"[과학] 지역 행정에서 재해 과학의 활용","사회":"[사회] 환경 정책과 세대 간 정의의 윤리적 분석","역사":"[역사] 환경 정책과 국제 환경 협력의 역사"}},{"번호":17,"대주제":"지역 행정","교과별_축약주제":{"국어":"[국어] 지역 행정 현장 담당자의 주민 소통 화법 분석","수학":"[수학] 지역 행정 주민 만족도 설문 데이터의 통계 분석","과학":"[과학] 정책 결정에서 과학자문단 활용","사회":"[사회] 지역 행정과 주민 자치의 사회적 의미","역사":"[역사] 지역 행정과 한국 지방자치의 역사"}},{"번호":18,"대주제":"정책 결정 과정","교과별_축약주제":{"국어":"[국어] 정책 결정 과정을 다룬 학술 텍스트의 절차적 서술 구조 분석","수학":"[수학] 정책 결정 과정의 의사결정 트리 모델","과학":"[과학] 정치 커뮤니케이션에서 디지털 기술의 과학적 기반","사회":"[사회] 정책 의사결정과 여론의 사회적 영향력","역사":"[역사] 정책 결정과 한국 정치사"}},{"번호":19,"대주제":"정치 커뮤니케이션","교과별_축약주제":{"국어":"[국어] 정치 커뮤니케이션의 언어 전략 분석","수학":"[수학] 정치 커뮤니케이션 효과의 수학적 분석","과학":"[과학] 글로벌 협력의 과학적 근거","사회":"[사회] 글로벌 협력 네트워크의 지정학적 분석","역사":"[역사] 정치 커뮤니케이션과 매체 혁명의 역사"}},{"번호":20,"대주제":"글로벌 협력","교과별_축약주제":{"국어":"[국어] 글로벌 협력의 성공 사례를 분석하는 보고서 작성","수학":"[수학] 글로벌 협력 네트워크를 그래프 이론으로 분석","역사":"[역사] 글로벌 협력과 국제 협력의 역사"}}]},{"계열명":"미디어·커뮤니케이션","대주제_수":20,"대주제_목록":[{"번호":1,"대주제":"알고리즘과 정보 노출","교과별_축약주제":{"국어":"[국어] 알고리즘과 정보 노출을 다룬 비판적 칼럼과 기술 해설서의 관점 차이 비교","수학":"[수학] 알고리즘 정보 노출이 사용자 행동에 미치는 영향의 통계 분석","과학":"[과학] 알고리즘 추천이 뇌의 보상회로에 미치는 영향","사회":"[사회] 알고리즘과 정보 노출의 사회문화적 영향","역사":"[역사] 알고리즘과 정보 통제의 역사"}},{"번호":2,"대주제":"미디어 편향","교과별_축약주제":{"국어":"[국어] 미디어 편향을 다룬 서로 다른 언론사의 동일 사건 보도 비교","수학":"[수학] 미디어 편향의 정량적 분석","과학":"[과학] 미디어 편향 보도와 인지편향의 과학적 기초","사회":"[사회] 미디어 편향과 대중매체의 사회적 기능","역사":"[역사] 미디어 편향과 황색저널리즘의 역사"}},{"번호":3,"대주제":"가짜뉴스 문제","교과별_축약주제":{"국어":"[국어] 가짜뉴스 문제를 주제로 한 토론 화법 분석","수학":"[수학] 가짜뉴스 확산 속도와 신뢰성의 통계적 분석","과학":"[과학] 가짜뉴스 확산과 사회적 전염 모델의 과학적 분석","사회":"[사회] 가짜뉴스 규제의 법적 쟁점","역사":"[역사] 가짜뉴스와 선전의 역사"}},{"번호":4,"대주제":"SNS 영향력","교과별_축약주제":{"국어":"[국어] SNS가 여론에 미치는 영향을 다룬 논증적 에세이 작성","수학":"[수학] SNS 콘텐츠 확산을 지수함수로 모델링","과학":"[과학] SNS 데이터 전송의 전자기파 원리","사회":"[사회] SNS 영향력과 사회 연결망 이론","역사":"[역사] SNS와 시민혁명의 역사"}},{"번호":5,"대주제":"광고 전략","교과별_축약주제":{"국어":"[국어] 광고 전략 관련 마케팅 텍스트의 설득 기법 분석","수학":"[수학] 광고 효과의 A/B 테스트 설계와 통계 분석","과학":"[과학] 광고의 감각 자극이 뇌에 미치는 영향","사회":"[사회] 광고 전략과 소비자 행동의 경제학","역사":"[역사] 광고 전략과 대중소비 사회의 역사"}},{"번호":6,"대주제":"콘텐츠 제작 구조","교과별_축약주제":{"국어":"[국어] 콘텐츠 제작 과정을 단계적으로 설명하는 기획서 작성","수학":"[수학] 콘텐츠 조회 수 데이터의 통계적 분석","과학":"[과학] 영상 콘텐츠의 빛·색 표현과 광학 원리","사회":"[사회] 콘텐츠 제작 구조와 문화산업의 사회학적 분석","역사":"[역사] 콘텐츠 제작과 한국 방송의 역사"}},{"번호":7,"대주제":"여론 형성","교과별_축약주제":{"국어":"[국어] 여론 형성 과정에서의 미디어 담화 분석","수학":"[수학] 여론 조사 데이터의 신뢰도 분석","과학":"[과학] 여론조사의 과학적 방법론과 표본추출 원리","사회":"[사회] 여론 형성과 선거·민주주의","역사":"[역사] 여론 형성과 민주주의의 역사"}},{"번호":8,"대주제":"디지털 미디어","교과별_축약주제":{"국어":"[국어] 디지털 미디어 관련 미래 전망 텍스트의 예측적 서술 구조 분석","수학":"[수학] 디지털 미디어 성장 곡선의 수학적 모델링","과학":"[과학] 디지털 미디어 저장 기술의 물리적 원리","사회":"[사회] 디지털 미디어와 정보격차(Digital Divide)","역사":"[역사] 디지털 미디어와 정보 혁명의 역사"}},{"번호":9,"대주제":"영상 스토리텔링","교과별_축약주제":{"국어":"[국어] 영상 스토리텔링과 문학적 서사 구조 비교","수학":"[수학] 영상 스토리텔링 구조를 수열·패턴으로 분석","과학":"[과학] 영상 스토리텔링이 감정에 미치는 신경과학적 영향","사회":"[사회] 영상 스토리텔링과 문화 재현의 사회학","역사":"[역사] 영상 스토리텔링과 동아시아 영화사"}},{"번호":10,"대주제":"플랫폼 구조","교과별_축약주제":{"국어":"[국어] 플랫폼 구조 관련 기술 해설서와 비판적 분석문의 서술 목적과 방식 차이 비교 분석","수학":"[수학] 플랫폼 네트워크 구조를 그래프 이론과 행렬로 분석","과학":"[과학] 소셜미디어 네트워크의 전자적 통신 기반","사회":"[사회] 플랫폼 경제와 독과점 구조","역사":"[역사] 플랫폼 구조와 인터넷의 역사"}},{"번호":11,"대주제":"미디어 윤리","교과별_축약주제":{"국어":"[국어] 미디어 윤리의 중요성을 주장하는 논술문 작성","수학":"[수학] 미디어 윤리 위반 판단의 논리적 구조를 명제와 집합으로 분석","과학":"[과학] 미디어 윤리와 과학기술의 사회적 영향","사회":"[사회] 미디어 윤리의 철학적 기초","역사":"[역사] 미디어 윤리와 언론 자유의 역사"}},{"번호":12,"대주제":"뉴스 생산 과정","교과별_축약주제":{"국어":"[국어] 뉴스 생산 과정에서의 취재 · 편집· 보도 단계별 언어 전략 분석","수학":"[수학] 뉴스 기사 신뢰도와 정보원 수의 상관관계 통계 분석","과학":"[과학] 뉴스 신뢰도 판단의 인지과학적 분석","사회":"[사회] 뉴스 생산과 언론의 자유·책임","역사":"[역사] 뉴스 생산과 한국 언론의 역사"}},{"번호":13,"대주제":"정보 전달 방식","교과별_축약주제":{"국어":"[국어] 정보 전달 방식(문자·영상·인포그래픽)의 효과 비교","수학":"[수학] 정보 전달 방식별 이해도 차이의 통계적 비교","과학":"[과학] 정보 전달 매체에 따른 학습 효과의 신경과학적 분석","사회":"[사회] 정보 전달 방식과 매체 리터러시","역사":"[역사] 정보 전달 방식의 역사"}},{"번호":14,"대주제":"콘텐츠 소비 패턴","교과별_축약주제":{"국어":"[국어] 콘텐츠 소비 패턴 변화를 분석하는 보고서 작성","수학":"[수학] 콘텐츠 소비 패턴 데이터의 통계적 분석","과학":"[과학] 미디어 과다 사용이 뇌에 미치는 생물학적 영향","사회":"[사회] 콘텐츠 소비 패턴과 세대 문화","역사":"[역사] 콘텐츠 소비 패턴과 한류의 역사"}},{"번호":15,"대주제":"브랜드 전략","교과별_축약주제":{"국어":"[국어] 브랜드 전략 기획서 작성","수학":"[수학] 브랜드 인지도 설문 데이터의 통계적 분석","과학":"[과학] 브랜드 인지와 감각 기억의 과학적 메커니즘","사회":"[사회] 브랜드 전략과 브랜드 자산의 경제적 가치","역사":"[역사] 브랜드 전략과 상업적 국가 브랜드의 역사"}},{"번호":16,"대주제":"커뮤니케이션 이론","교과별_축약주제":{"국어":"[국어] 커뮤니케이션 이론(송신자·메시지·수신자 모델)의 실제 적용 사례 분석","수학":"[수학] 커뮤니케이션 이론 모델을 함수·행렬로 표현","과학":"[과학] 커뮤니케이션 기술의 전자기파 활용 원리","사회":"[사회] 커뮤니케이션 이론과 사회적 상호작용","역사":"[역사] 커뮤니케이션 이론과 선전의 역사"}},{"번호":17,"대주제":"영상 분석","교과별_축약주제":{"국어":"[국어] 영상 분석과 문학 비평의 방법론 비교","수학":"[수학] 영상 분석에서 샷 길이·장면 전환 빈도의 통계적 분석","과학":"[과학] 영상 촬영·편집의 물리적 원리","사회":"[사회] 영상 분석과 문화 코드","역사":"[역사] 영상 분석과 영화사의 역사"}},{"번호":18,"대주제":"데이터 기반 콘텐츠","교과별_축약주제":{"국어":"[국어] 데이터 기반 콘텐츠 관련 텍스트에서 수치 데이터의 해석과 활용 방식 분석","수학":"[수학] 데이터 기반 콘텐츠의 성과 지표 통계 분석","과학":"[과학] 데이터 기반 콘텐츠 제작의 과학적 방법론","사회":"[사회] 데이터 기반 콘텐츠와 데이터 경제","역사":"[역사] 데이터 기반 콘텐츠와 빅데이터의 역사"}},{"번호":19,"대주제":"미디어 영향력","교과별_축약주제":{"국어":"[국어] 미디어 영향력과 개인 판단력의 관계를 주제로 한 토론 화법 분석","수학":"[수학] 미디어 영향력 확산을 지수함수로 모델링","과학":"[과학] 미디어 영향력 확산과 파동 전파의 유비적 분석","사회":"[사회] 미디어 영향력과 대중사회론","역사":"[역사] 미디어 영향력과 권력의 역사"}},{"번호":20,"대주제":"정보 신뢰성","교과별_축약주제":{"국어":"[국어] 정보 신뢰성 관련 다양한 텍스트(팩트체크 보고서·언론 기사·SNS 게시물)의 신뢰도 평가 기준 탐구","수학":"[수학] 정보 신뢰성 평가의 통계적 방법","과학":"[과학] 팩트체크의 과학적 검증 방법론","사회":"[사회] 정보 신뢰성과 알 권리의 법적 보장","역사":"[역사] 정보 신뢰성과 팩트체크의 역사"}}]},{"계열명":"교육계열","대주제_수":20,"대주제_목록":[{"번호":1,"대주제":"교육심리학 학습 이론","교과별_축약주제":{"국어":"[국어] 교육심리학 학습 이론(행동주의·구성주의·인지주의)을 설명한 텍스트 비교 독해","수학":"[수학] 학습 이론별 학습 성취도 사전·사후 검사 데이터 비교","과학":"[과학] 학습 이론의 신경과학적 기초","사회":"[사회] 교육심리학 학습 이론과 사회화 과정","역사":"[역사] 교육심리학 학습 이론의 역사"}},{"번호":2,"대주제":"학습 동기","교과별_축약주제":{"국어":"[국어] 학습 동기를 높이는 방법을 제안하는 설득적 에세이 작성","수학":"[수학] 학습 동기와 성적의 상관관계 분석","과학":"[과학] 학습 동기와 뇌 보상회로의 관계","사회":"[사회] 학습 동기와 사회계층","역사":"[역사] 학습 동기와 동아시아 과거제도의 역사"}},{"번호":3,"대주제":"교수법 비교","교과별_축약주제":{"국어":"[국어] 다양한 교수법의 수업 화법 비교 분석","수학":"[수학] 교수법별 학습 효과 비교 실험의 통계적 분석","과학":"[과학] 교수법에 따른 뇌 활성화 영역 차이 분석","사회":"[사회] 교수법 비교와 교실 상호작용","역사":"[역사] 교수법의 역사적 변천"}},{"번호":4,"대주제":"AI 교육","교과별_축약주제":{"국어":"[국어] AI 교육 관련 찬반 칼럼 비교 독해","수학":"[수학] AI 교육 도입 전후 학습 성취도 변화의 통계적 비교","과학":"[과학] AI 교육 도구의 과학기술적 원리 분석","사회":"[사회] AI 교육과 학습권·개인정보보호","역사":"[역사] AI 교육과 기술 발전의 역사"}},{"번호":5,"대주제":"교육 격차","교과별_축약주제":{"국어":"[국어] 교육 격차 해소를 주제로 한 논설문 작성","수학":"[수학] 교육 격차를 지역·소득 데이터로 통계적 분석","과학":"[과학] 교육 격차와 환경 요인의 과학적 분석","사회":"[사회] 교육 격차와 사회 불평등","역사":"[역사] 교육 격차와 한국 교육 기회의 역사"}},{"번호":6,"대주제":"평가 방식","교과별_축약주제":{"국어":"[국어] 평가 방식(수행평가·절대평가 등)에 대한 토론 화법 분석","수학":"[수학] 평가 방식별 성적 분포의 통계적 비교","과학":"[과학] 평가 스트레스가 인체에 미치는 생리적 영향","사회":"[사회] 평가 방식과 교육의 공정성","역사":"[역사] 평가 방식과 동아시아 시험 제도의 역사"}},{"번호":7,"대주제":"창의성 교육","교과별_축약주제":{"국어":"[국어] 창의성 교육과 문학 창작의 연결","수학":"[수학] 창의성 교육 효과의 통계적 검증","과학":"[과학] 창의성의 신경과학적 기초 탐구","사회":"[사회] 창의성 교육과 현대 사회의 요구","역사":"[역사] 창의성 교육과 예술교육의 역사"}},{"번호":8,"대주제":"학습 전략","교과별_축약주제":{"국어":"[국어] 학습 전략 관련 자기계발서와 학술 논문의 서술 방식 비교","수학":"[수학] 학습 전략의 효과를 망각 곡선으로 모델링","과학":"[과학] 에빙하우스 망각곡선의 신경과학적 원리","사회":"[사회] 학습 전략과 사회적 자본","역사":"[역사] 학습 전략과 동아시아 서당·서원 교육"}},{"번호":9,"대주제":"교육 정책","교과별_축약주제":{"국어":"[국어] 교육 정책 비판 또는 제안 글쓰기","수학":"[수학] 교육 정책 효과를 데이터로 검증","과학":"[과학] 교육 정책의 과학적 근거 기반 평가","사회":"[사회] 교육 정책의 법적 근거와 검증","역사":"[역사] 교육 정책과 한국 교육제도의 역사"}},{"번호":10,"대주제":"디지털 교육","교과별_축약주제":{"국어":"[국어] 디지털 교육 환경에서의 온라인 수업 화법 분석","수학":"[수학] 디지털 교육 환경에서의 학습 데이터 통계 분석","과학":"[과학] 디지털 교육 환경의 전자기기 작동 원리","사회":"[사회] 디지털 교육과 정보격차","역사":"[역사] 디지털 교육과 원격교육의 역사"}},{"번호":11,"대주제":"협동학습","교과별_축약주제":{"국어":"[국어] 협동학습의 효과를 분석하는 탐구 보고서 작성","수학":"[수학] 협동학습과 개별학습의 성취도 비교 실험","과학":"[과학] 협동학습과 사회적 뇌의 신경과학적 분석","사회":"[사회] 협동학습과 집단역학","역사":"[역사] 협동학습과 근대 교육 운동의 역사"}},{"번호":12,"대주제":"자기주도 학습","교과별_축약주제":{"국어":"[국어] 자기주도 학습 관련 교육학 텍스트의 개념 정의와 설명 방식 분석","수학":"[수학] 자기주도 학습력의 성장 곡선을 함수로 모델링","과학":"[과학] 자기주도 학습의 전두엽 실행기능 분석","사회":"[사회] 자기주도 학습과 인간관","역사":"[역사] 자기주도 학습과 동아시아 자학 전통"}},{"번호":13,"대주제":"교육 철학","교과별_축약주제":{"국어":"[국어] 교육 철학(루소·듀이 등) 텍스트의 주장과 논증 구조 분석","수학":"[수학] 교육 철학의 논리적 구조를 명제·집합으로 분석","과학":"[과학] 교육 철학과 과학적 인간 이해의 접점","사회":"[사회] 교육 철학과 인간 본성론","역사":"[역사] 교육 철학과 근대 교육의 역사"}},{"번호":14,"대주제":"교육 기술","교과별_축약주제":{"국어":"[국어] 교육 기술 활용을 주제로 한 발표 화법 분석","수학":"[수학] 교육 기술 도입 효과의 통계적 검증","과학":"[과학] 교육 기술(VR·AR)의 물리적 원리 분석","사회":"[사회] 교육 기술과 사회 변화","역사":"[역사] 교육 기술과 교육 혁신의 역사"}},{"번호":15,"대주제":"교사 역할","교과별_축약주제":{"국어":"[국어] 교사의 역할 변화를 분석하는 시사 칼럼 작성","수학":"[수학] 교사 역할 변화에 대한 인식 설문 데이터 분석","과학":"[과학] 교사 역할과 인간 사회적 뇌의 과학적 분석","사회":"[사회] 교사 역할 변화와 직업 지위","역사":"[역사] 교사 역할과 한국 교사상의 역사"}},{"번호":16,"대주제":"학습 효과","교과별_축약주제":{"국어":"[국어] 학습 효과 관련 실험 연구 논문의 독해","수학":"[수학] 학습 효과 연구의 통계적 해석","과학":"[과학] 학습 효과 연구의 과학적 방법론 분석","사회":"[사회] 학습 효과와 사회화","역사":"[역사] 학습 효과와 교육실험의 역사"}},{"번호":17,"대주제":"교육 환경","교과별_축약주제":{"국어":"[국어] 학습 환경이 학습에 미치는 영향을 다룬 에세이 작성","수학":"[수학] 학습 환경 요인과 성취도의 다변량 통계 분석","과학":"[과학] 학습 환경(조도·온도)이 인체에 미치는 생리적 영향","사회":"[사회] 교육 환경과 잠재적 교육과정","역사":"[역사] 교육 환경과 한국 학교 건축의 역사"}},{"번호":18,"대주제":"교육 변화","교과별_축약주제":{"국어":"[국어] 교육 변화를 다룬 역사적 텍스트의 시간순 서술 구조 분석","수학":"[수학] 교육 변화의 시계열 데이터 분석","과학":"[과학] 교육 변화와 청소년 뇌 발달의 과학적 분석","사회":"[사회] 교육 변화와 세대간 문화 격차","역사":"[역사] 교육 변화와 한국 교육제도의 역사"}},{"번호":19,"대주제":"교육 혁신","교과별_축약주제":{"국어":"[국어] 교육 혁신 사례 발표 화법 분석","수학":"[수학] 교육 혁신 사례의 성공 요인 통계 분석","과학":"[과학] 교육 혁신에서 과학기술 융합의 역할","사회":"[사회] 교육 혁신과 교육법 개정","역사":"[역사] 교육 혁신과 교육개혁 운동의 역사"}},{"번호":20,"대주제":"미래 교육","교과별_축약주제":{"국어":"[국어] 미래 교육의 방향을 제안하는 논설문 작성","수학":"[수학] 미래 교육 수요 예측을 함수로 모델링","과학":"[과학] 미래 교육과 인구변화의 생물학적 분석","사회":"[사회] 미래 교육과 인구·사회 변동","역사":"[역사] 미래 교육과 교육의 세계사적 변화"}}]},{"계열명":"예체능","대주제_수":20,"대주제_목록":[{"번호":1,"대주제":"예술 창작 과정","교과별_축약주제":{"국어":"[국어] 예술 창작 과정을 성찰적으로 정리하는 예술 에세이 작성","수학":"[수학] 예술 창작 과정에서 시행착오 횟수와 완성도의 상관관계 분석","과학":"[과학] 예술 창작 과정에서 뇌의 시행착오 학습 메커니즘","사회":"[사회] 예술 창작 과정과 문화생산","역사":"[역사] 예술 창작 과정과 예술사조의 역사"}},{"번호":2,"대주제":"색채 이론","교과별_축약주제":{"국어":"[국어] 색채 이론 관련 디자인·심리학 텍스트 비교 독해","수학":"[수학] 색채 혹합 원리를 함수와 좌표로 분석","과학":"[과학] 색채 혼합의 빛의 삼원색·물감 삼원색 원리 비교","사회":"[사회] 색채의 문화적 상징과 지역성","역사":"[역사] 색채 이론과 동아시아 전통 색채의 역사"}},{"번호":3,"대주제":"디자인 원리","교과별_축약주제":{"국어":"[국어] 디자인 원리를 설명하는 프레젠테이션 화법 분석","수학":"[수학] 디자인 원리의 기하학적 분석","과학":"[과학] 미술 작품의 원근법과 빛의 반사·굴절 원리","사회":"[사회] 디자인 원리와 상품 가치","역사":"[역사] 디자인 원리와 바우하우스의 역사"}},{"번호":4,"대주제":"음악 구조","교과별_축약주제":{"국어":"[국어] 음악 구조 관련 음악학 텍스트와 음악 비평문의 분석 방식 비교","수학":"[수학] 음악 구조의 수학적 분석","과학":"[과학] 음악의 물리적 원리","사회":"[사회] 공연 기획과 문화산업의 경제학","역사":"[역사] 음악 구조와 서양음악사"}},{"번호":5,"대주제":"공연 기획","교과별_축약주제":{"국어":"[국어] 공연 기획의 전 과정을 서술하는 기획서 작성","수학":"[수학] 공연 기획에서의 예산 배분 최적화","과학":"[과학] 공연 기획에서 에너지 시스템 설계","사회":"[사회] 스포츠 과학과 스포츠의 사회적 기능","역사":"[역사] 공연 기획과 한국 공연 문화의 역사"}},{"번호":6,"대주제":"스포츠 과학","교과별_축약주제":{"국어":"[국어] 스포츠 과학 관련 연구 논문과 스포츠 칼럼의 정보 전달 방식 비교","수학":"[수학] 스포츠 과학 실험 데이터의 통계적 분석","과학":"[과학] 스포츠 과학에서 근육 수축 메커니즘 분석","사회":"[사회] 운동 생리학과 건강 불평등","역사":"[역사] 스포츠 과학과 고대 올림픽의 역사"}},{"번호":7,"대주제":"운동 생리학","교과별_축약주제":{"국어":"[국어] 운동 생리학 원리를 활용한 훈련 계획서 작성","수학":"[수학] 운동 생리학에서 심박수·산소소비량 변화를 함수로 모델링","과학":"[과학] 운동 중 심박수·호흡량 변화의 생리학적 분석","사회":"[사회] 예술과 감정의 미학","역사":"[역사] 운동 생리학과 체육의 역사"}},{"번호":8,"대주제":"예술과 감정","교과별_축약주제":{"국어":"[국어] 예술과 감정의 관계를 다룬 문학 작품 속 예술가 인물 분석","수학":"[수학] 예술과 감정 반응의 상관관계 통계 분석","과학":"[과학] 음악이 뇌에 미치는 신경과학적 영향","사회":"[사회] 창의성 발현과 문화적 환경","역사":"[역사] 예술과 감정"}},{"번호":9,"대주제":"창의성 발현","교과별_축약주제":{"국어":"[국어] 창의성 발현 과정을 주제로 한 발표·토론 화법 분석","수학":"[수학] 창의성 점수의 분포 분석","과학":"[과학] 창의성과 뇌 기능의 신경과학적 분석","사회":"[사회] 무대 연출과 관객 경험","역사":"[역사] 창의성 발현과 르네상스의 역사"}},{"번호":10,"대주제":"무대 연출","교과별_축약주제":{"국어":"[국어] 무대 연출의 의도와 효과를 분석하는 공연 비평문 작성","수학":"[수학] 무대 연출의 공간 설계를 기하학으로 분석","과학":"[과학] 무대 조명의 광학적 원리 분석","사회":"[사회] 영상 예술과 대중문화","역사":"[역사] 무대 연출과 동아시아 전통 공연의 역사"}},{"번호":11,"대주제":"영상 예술","교과별_축약주제":{"국어":"[국어] 영상 예술 작품과 문학 작품의 서사·상징 비교","수학":"[수학] 영상 예술에서 프레임 비율·화면 구성의 수학적 분석","과학":"[과학] 영상 예술의 카메라 광학 원리","사회":"[사회] 음악 표현과 세대 정체성","역사":"[역사] 영상 예술과 영화의 역사"}},{"번호":12,"대주제":"음악 표현","교과별_축약주제":{"국어":"[국어] 음악 표현의 감정 전달 방식과 문학적 감정 표현 비교","수학":"[수학] 음악 표현에서 박자·리듬의 수학적 구조 분석","과학":"[과학] 음악에서 박자·리듬의 진동학적 원리","사회":"[사회] 스포츠 전략과 스포츠 산업의 경제학","역사":"[역사] 음악 표현과 동아시아 전통음악의 역사"}},{"번호":13,"대주제":"스포츠 전략","교과별_축약주제":{"국어":"[국어] 스포츠 전략을 분석하는 스포츠 칼럼 작성","수학":"[수학] 스포츠 전략의 성공 확률 분석","과학":"[과학] 스포츠 전략과 인체 역학적 분석","사회":"[사회] 예술과 사회 변동","역사":"[역사] 스포츠 전략과 올림픽 정치의 역사"}},{"번호":14,"대주제":"예술과 사회","교과별_축약주제":{"국어":"[국어] 예술과 사회의 관계를 다룬 예술 사회학 텍스트 독해","수학":"[수학] 예술과 사회의 관계에서 예술 투자와 사회적 효과의 상관관계 통계 분석","과학":"[과학] 예술 투자와 문화재 보존의 과학적 방법","사회":"[사회] 미술사 분석과 문화자본","역사":"[역사] 예술과 사회의 역사적 관계"}},{"번호":15,"대주제":"미술사 분석","교과별_축약주제":{"국어":"[국어] 미술사 텍스트의 시대별 서술 구조 분석","수학":"[수학] 미술사 사조 변화를 시계열 데이터로 분석","과학":"[과학] 미술 재료(안료·바인더)의 화학적 성분 분석","사회":"[사회] 공연 분석과 사회적 태도 형성","역사":"[역사] 미술사와 예술사조의 역사"}},{"번호":16,"대주제":"공연 분석","교과별_축약주제":{"국어":"[국어] 공연 비평문 작성","수학":"[수학] 공연 분석에서 무대 동선과 배우 위치의 기하학적 모델링","과학":"[과학] 무대 동선과 역학적 운동 분석","사회":"[사회] 신체 움직임과 비언어적 소통","역사":"[역사] 공연 분석과 한국 전통 공연의 역사"}},{"번호":17,"대주제":"신체 움직임","교과별_축약주제":{"국어":"[국어] 신체 움직임의 원리를 언어로 설명하는 화법 분석","수학":"[수학] 신체 움직임의 속도·가속도 분석","과학":"[과학] 신체 움직임의 신경-근육 연결 분석","사회":"[사회] 스포츠 데이터와 스포츠 마케팅","역사":"[역사] 신체 움직임과 무용의 역사"}},{"번호":18,"대주제":"스포츠 데이터","교과별_축약주제":{"국어":"[국어] 스포츠 데이터 분석 관련 텍스트의 수치 데이터 해석과 논리적 서술 방식 분석","수학":"[수학] 스포츠 데이터 분석","과학":"[과학] 운동 훈련의 생리적 적응 분석","사회":"[사회] 예술 교육과 문화적 시민성","역사":"[역사] 스포츠 데이터와 한국 스포츠의 역사"}},{"번호":19,"대주제":"예술 교육","교과별_축약주제":{"국어":"[국어] 예술 교육의 가치와 필요성을 주장하는 설득적 글쓰기","수학":"[수학] 예술 교육의 효과를 통계적으로 검증","과학":"[과학] 예술 교육이 뇌 발달에 미치는 과학적 효과","사회":"[사회] 창작 기법과 문화 융합","역사":"[역사] 예술 교육과 국가 문화정책의 역사"}},{"번호":20,"대주제":"창작 기법","교과별_축약주제":{"국어":"[국어] 창작 기법과 문학적 글쓰기의 연결","수학":"[수학] 창작 기법의 기하학적 원리 탐구","과학":"[과학] 프랙탈·테셀레이션 예술의 자연과학적 원리","역사":"[역사] 창작 기법과 동아시아 전통 공예의 역사"}}]}]};
+
+// ═══════════════════════════════════════════════════════════════
+// 상태
+// ═══════════════════════════════════════════════════════════════
+let state = {
+  career: null,
+  subjects: [],
+  lastShownTopicNumbers: [] // 중복 방지
+};
+
+// ═══════════════════════════════════════════════════════════════
+// 일일 조회 한도 관리 (localStorage)
+// ═══════════════════════════════════════════════════════════════
+const DAILY_LIMIT = 3;
+const QUOTA_KEY = 'ebayeon_research_quota';
+
+function getTodayDateString() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  return y + '-' + m + '-' + d;
+}
+
+function getQuotaData() {
+  try {
+    const raw = localStorage.getItem(QUOTA_KEY);
+    if (!raw) return { date: getTodayDateString(), used: 0 };
+    const data = JSON.parse(raw);
+    // 날짜 바뀌었으면 초기화
+    if (data.date !== getTodayDateString()) {
+      return { date: getTodayDateString(), used: 0 };
+    }
+    return data;
+  } catch (e) {
+    return { date: getTodayDateString(), used: 0 };
+  }
+}
+
+function getRemainingQuota() {
+  const data = getQuotaData();
+  return Math.max(0, DAILY_LIMIT - data.used);
+}
+
+function consumeQuota() {
+  const data = getQuotaData();
+  data.used += 1;
+  try {
+    localStorage.setItem(QUOTA_KEY, JSON.stringify(data));
+  } catch (e) {
+    // localStorage 사용 불가 환경에서도 진행되도록
+  }
+  return DAILY_LIMIT - data.used;
+}
+
+function hasQuotaRemaining() {
+  return getRemainingQuota() > 0;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 초기화: 진로 드롭다운 채우기
+// ═══════════════════════════════════════════════════════════════
+function initApp() {
+  const select = document.getElementById('career-select');
+  DB.계열목록.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat.계열명;
+    opt.textContent = cat.계열명;
+    select.appendChild(opt);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 화면 이동
+// ═══════════════════════════════════════════════════════════════
+function goToScreen(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 화면 2: 진로 선택
+// ═══════════════════════════════════════════════════════════════
+function onCareerSelected() {
+  const select = document.getElementById('career-select');
+  state.career = select.value;
+  document.getElementById('career-next-btn').disabled = !state.career;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 화면 3: 교과 선택
+// ═══════════════════════════════════════════════════════════════
+function toggleSubject(subject) {
+  const idx = state.subjects.indexOf(subject);
+  if (idx !== -1) {
+    state.subjects.splice(idx, 1);
+  } else {
+    if (state.subjects.length >= 2) {
+      // 3번째 선택 시 가장 먼저 선택한 것 자동 해제
+      state.subjects.shift();
+    }
+    state.subjects.push(subject);
+  }
+  renderSubjectSelection();
+}
+
+function renderSubjectSelection() {
+  document.querySelectorAll('[data-subject]').forEach(btn => {
+    const subject = btn.getAttribute('data-subject');
+    const checkIcon = btn.querySelector('.check-icon');
+    if (state.subjects.includes(subject)) {
+      btn.classList.add('selected');
+      checkIcon.style.opacity = '1';
+    } else {
+      btn.classList.remove('selected');
+      checkIcon.style.opacity = '0';
+    }
+  });
+
+  const count = state.subjects.length;
+  document.getElementById('selection-counter').textContent = count + ' / 2 선택';
+  const icon = document.getElementById('selection-counter-icon');
+  icon.textContent = count === 2 ? 'check_circle' : (count === 1 ? 'radio_button_checked' : 'radio_button_unchecked');
+  icon.classList.toggle('mso-filled', count >= 1);
+
+  document.getElementById('subject-next-btn').disabled = count !== 2;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 화면 4: 생성 연출 (2.5초)
+// ═══════════════════════════════════════════════════════════════
+function startGenerating() {
+  // 한도 체크
+  if (!hasQuotaRemaining()) {
+    goToScreen('screen-limit');
+    return;
+  }
+  // 1회 차감
+  consumeQuota();
+  goToScreen('screen-loading');
+  setTimeout(() => {
+    generateAndShowResults();
+  }, 2500);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 결과 생성
+// ═══════════════════════════════════════════════════════════════
+function generateResults() {
+  const category = DB.계열목록.find(c => c.계열명 === state.career);
+  if (!category) return [];
+
+  // 선택한 2개 교과가 모두 있는 대주제만 후보로
+  const validTopics = category.대주제_목록.filter(t => {
+    return state.subjects.every(s => t.교과별_축약주제[s]);
+  });
+
+  // 직전 결과 제외
+  let candidates = validTopics.filter(t => !state.lastShownTopicNumbers.includes(t.번호));
+  if (candidates.length < 3) {
+    // 후보 부족하면 전체에서 다시 뽑기
+    candidates = validTopics;
+    state.lastShownTopicNumbers = [];
+  }
+
+  // 랜덤 3개 추출
+  const shuffled = [...candidates].sort(() => Math.random() - 0.5);
+  const selected = shuffled.slice(0, 3);
+  state.lastShownTopicNumbers = selected.map(t => t.번호);
+  return selected;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 화면 5: 결과 렌더링
+// ═══════════════════════════════════════════════════════════════
+function generateAndShowResults() {
+  const topics = generateResults();
+  const heading = document.getElementById('result-heading');
+  heading.innerHTML = '<span class="text-[var(--navy)]">' + state.career + '</span> × ' + state.subjects[0] + ' · ' + state.subjects[1];
+
+  const container = document.getElementById('result-cards');
+  container.innerHTML = '';
+
+  topics.forEach((topic, i) => {
+    const card = document.createElement('article');
+    card.className = 'card-3d relative fade-in-delay-' + (i + 1);
+    const num = String(i + 1).padStart(2, '0');
+
+    let subjectRows = '';
+    state.subjects.forEach(s => {
+      const text = topic.교과별_축약주제[s] || '';
+      // [과목] 태그와 본문 분리
+      const match = text.match(/^\[([^\]]+)\]\s*(.+)$/);
+      if (match) {
+        subjectRows += '<div class="flex gap-3 items-start py-2"><span class="shrink-0 text-[11px] font-bold text-[var(--navy)] bg-[var(--navy-light)] px-2.5 py-1 rounded-full tracking-wide">[' + match[1] + ']</span><span class="text-[14px] text-[var(--on-surface)] leading-relaxed flex-1">' + match[2] + '</span></div>';
+      } else {
+        subjectRows += '<div class="text-[14px] text-[var(--on-surface)] leading-relaxed py-2">' + text + '</div>';
+      }
+    });
+
+    card.innerHTML = '<span class="absolute -top-5 -left-1 text-[5.5rem] font-headline font-extrabold text-[var(--navy)]/[0.06] leading-none select-none pointer-events-none">' + num + '</span>' +
+      '<div class="bg-[var(--surface-lowest)] rounded-2xl p-6 shadow-[0_8px_24px_rgba(0,31,63,0.06)] relative z-10 border border-[var(--outline-variant)]/30">' +
+        '<h3 class="font-headline font-bold text-[17px] leading-snug text-[var(--on-surface)] mb-5">' + topic.대주제 + '</h3>' +
+        '<div class="border-t border-[var(--outline-variant)]/40 pt-3 space-y-0">' + subjectRows + '</div>' +
+      '</div>';
+    container.appendChild(card);
+  });
+
+  // 쿼터 UI 업데이트
+  updateQuotaUI();
+
+  goToScreen('screen-result');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 쿼터 UI 업데이트 (결과 화면의 배지와 재생성 버튼)
+// ═══════════════════════════════════════════════════════════════
+function updateQuotaUI() {
+  const remaining = getRemainingQuota();
+  const quotaText = document.getElementById('quota-text');
+  const quotaBadge = document.getElementById('quota-badge');
+  const regenButton = document.getElementById('regen-button');
+  const regenHint = document.getElementById('regen-hint');
+
+  if (remaining >= 2) {
+    quotaText.textContent = '오늘 남은 횟수 ' + remaining + '회';
+    quotaBadge.classList.remove('bg-[var(--navy)]', 'text-white');
+    quotaBadge.classList.add('bg-[var(--navy-light)]', 'text-[var(--navy)]');
+    regenButton.disabled = false;
+    regenButton.classList.remove('opacity-40', 'cursor-not-allowed');
+    regenHint.textContent = '';
+  } else if (remaining === 1) {
+    quotaText.textContent = '마지막 1회 남음';
+    quotaBadge.classList.remove('bg-[var(--navy-light)]', 'text-[var(--navy)]');
+    quotaBadge.classList.add('bg-[var(--navy)]', 'text-white');
+    regenButton.disabled = false;
+    regenButton.classList.remove('opacity-40', 'cursor-not-allowed');
+    regenHint.textContent = '오늘 다시 받기는 이번이 마지막입니다';
+  } else {
+    // 0 회: 다시 받기 버튼 비활성화
+    quotaText.textContent = '오늘 조회 마감';
+    quotaBadge.classList.remove('bg-[var(--navy-light)]', 'text-[var(--navy)]');
+    quotaBadge.classList.add('bg-[var(--navy)]', 'text-white');
+    regenButton.disabled = true;
+    regenButton.classList.add('opacity-40', 'cursor-not-allowed');
+    regenHint.textContent = '자정이 지나면 다시 이용하실 수 있습니다';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 다시 받기 (결과 화면 내에서)
+// ═══════════════════════════════════════════════════════════════
+function regenerateResults() {
+  // 한도 체크
+  if (!hasQuotaRemaining()) {
+    goToScreen('screen-limit');
+    return;
+  }
+  // 1회 차감
+  consumeQuota();
+  // 생성 연출 보여주고 다시 생성
+  goToScreen('screen-loading');
+  setTimeout(() => {
+    generateAndShowResults();
+  }, 1500);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 앱 처음부터 다시
+// ═══════════════════════════════════════════════════════════════
+function restartApp() {
+  state = {
+    career: null,
+    subjects: [],
+    lastShownTopicNumbers: []
+  };
+  document.getElementById('career-select').value = '';
+  document.getElementById('career-next-btn').disabled = true;
+  document.getElementById('subject-next-btn').disabled = true;
+  renderSubjectSelection();
+  goToScreen('screen-start');
+}
+
+// 초기화
+initApp();
+</script>
+
+</body>
+</html>
